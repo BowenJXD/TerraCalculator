@@ -1,0 +1,196 @@
+{
+  "BUILD_DWELLING": {
+    "worker": -1,
+    "coin": -2
+  },
+  "BUILD_TRADING_HOUSE_UNCONNECTED": {
+    "worker": -2,
+    "coin": -6
+  },
+  "BUILD_TRADING_HOUSE_CONNECTED": {
+    "worker": -2,
+    "coin": -3
+  },
+  "BUILD_TEMPLE": {
+    "worker": -2,
+    "coin": -5
+  },
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -6
+  },
+  "BUILD_SANCTUARY": {
+    "worker": -4,
+    "coin": -6
+  },
+  "POWER_ACTION_BRIDGE": {
+    "power": -3
+  },
+  "POWER_ACTION_PRIEST": {
+    "power": -3,
+    "priest": 1
+  },
+  "POWER_ACTION_WORKER": {
+    "power": -4,
+    "worker": 2
+  },
+  "POWER_ACTION_COIN": {
+    "power": -4,
+    "coin": 7
+  },
+  "POWER_ACTION_SINGLE_SHOVEL": {
+    "power": -4
+  },
+  "POWER_ACTION_DOUBLE_SHOVEL": {
+    "power": -6
+  },
+  "SHOVEL_L1_ONCE": {
+    "worker": -3
+  },
+  "SHOVEL_L1_TWICE": {
+    "worker": -6
+  },
+  "SHOVEL_L1_THRICE": {
+    "worker": -9
+  },
+  "SHOVEL_L2_ONCE": {
+    "worker": -2
+  },
+  "SHOVEL_L2_TWICE": {
+    "worker": -4
+  },
+  "SHOVEL_L2_THRICE": {
+    "worker": -6
+  },
+  "SHOVEL_L3_ONCE": {
+    "worker": -1
+  },
+  "SHOVEL_L3_TWICE": {
+    "worker": -2
+  },
+  "SHOVEL_L3_THRICE": {
+    "worker": -3
+  },
+  "PRIEST_EXHAUST": {
+    "priest": -1
+  },
+  "UPGRADE_SHIPPING_L0_L1": {
+    "coin": -4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 2
+  },
+  "UPGRADE_SHIPPING_L1_L2": {
+    "coin": -4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 3
+  },
+  "UPGRADE_SHIPPING_L2_L3": {
+    "coin": 4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 4
+  },
+  "UPGRADE_SHOVEL_L1_L2": {
+    "coin": -5,
+    "worker": -1,
+    "shovel": 1,
+    "vp": 6
+  },
+  "UPGRADE_SHOVEL_L2_L3": {
+    "coin": -5,
+    "worker": -1,
+    "shovel": 1,
+    "vp": 6
+  },
+  "TOWN_VP": {
+    "vp": 11
+  },
+  "TOWN_PRIEST": {
+    "vp": 9,
+    "priest": 1
+  },
+  "TOWN_CULT": {
+    "vp": 8
+  },
+  "TOWN_WORKER": {
+    "vp": 7,
+    "worker": 2
+  },
+  "TOWN_POWER": {
+    "vp": 6,
+    "power": 8
+  },
+  "TOWN_COIN": {
+    "vp": 5,
+    "priest": 6
+  },
+  "TOWN_SHIPPING": {
+    "vp": 4,
+    "shipping": 1
+  },
+  "TOWN_DOUBLE_CULT": {
+    "vp": 2
+  },
+  "CONVERT_POWER_TO_PRIEST": {
+    "power": -5,
+    "priest": 1
+  },
+  "CONVERT_POWER_TO_WORKER": {
+    "power": -5,
+    "priest": 1
+  },
+  "CONVERT_POWER_TO_COIN": {
+    "power": -5,
+    "priest": 1
+  },
+  "CONVERT_PRIEST_TO_WORKER": {
+    "power": -5,
+    "priest": 1
+  },
+  "CONVERT_WORKER_TO_COIN": {
+    "power": -5,
+    "priest": 1
+  },
+  "CONVERT_PRIEST_TO_COIN": {
+    "power": -5,
+    "priest": 1
+  },
+  "POWER_GAIN_1": {
+    "power": 1
+  },
+  "POWER_GAIN_2": {
+    "power": 2
+  },
+  "POWER_GAIN_3": {
+    "power": 3
+  },
+  "POWER_GAIN_4": {
+    "power": 4
+  },
+  "POWER_GAIN_5": {
+    "power": 5
+  },
+  "POWER_GAIN_6": {
+    "power": 6
+  },
+  "POWER_GAIN_7": {
+    "power": 7
+  },
+  "POWER_GAIN_8": {
+    "power": 8
+  },
+  "POWER_GAIN_9": {
+    "power": 9
+  },
+  "POWER_GAIN_10": {
+    "power": 10
+  },
+  "POWER_GAIN_11": {
+    "power": 11
+  },
+  "POWER_GAIN_12":{
+    "power": 12
+  }
+}
