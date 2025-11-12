@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnAction"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:text="行动" />
 
     <TextView
-        android:id="@+id/item_vp"
+        android:id="@+id/tvVp"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -25,7 +25,7 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/item_coin"
+        android:id="@+id/tvCoin"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -36,7 +36,7 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/item_worker"
+        android:id="@+id/tvWorker"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -47,7 +47,7 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/item_priest"
+        android:id="@+id/tvPriest"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -58,7 +58,7 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/item_power"
+        android:id="@+id/tvPower"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -69,7 +69,7 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnDetail"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

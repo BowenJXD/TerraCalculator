@@ -75,21 +75,6 @@
             android:hint="魔力3"
             android:inputType="number" />
 
-        <EditText
-            android:id="@+id/inputDwelling"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="聚落"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/inputTradingHouse"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="贸易站"
-            android:inputType="number" />
     </LinearLayout>
 
     <!-- ========== LOWER HALF: Button Grid ========== -->
@@ -105,55 +90,61 @@
 
         <!-- Example Buttons -->
         <Button
+            android:id="@+id/btnSelectChar"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="选择角色" />
+            android:text="角色"
+            android:textSize="12sp" />
 
         <ToggleButton
+            android:id="@+id/tbEarth1"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:text="土1"
             android:textOff="土1"
-            android:textOn="土1" />
+            android:textOn="土1"
+            android:textSize="12sp" />
 
         <ToggleButton
+            android:id="@+id/tbHydro1"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:text="水1"
             android:textOff="水1"
-            android:textOn="水1" />
+            android:textOn="水1"
+            android:textSize="12sp" />
 
         <Button
+            android:id="@+id/btnScoring"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="航海" />
+            android:text="加分片"
+            android:textSize="12sp" />
 
         <Button
+            android:id="@+id/btnBonus"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="铲子" />
+            android:text="特权片"
+            android:textSize="12sp" />
 
         <Button
+            android:id="@+id/btnApply"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="加分片" />
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="特权片" />
+            android:backgroundTint="#95AAF2"
+            android:text="应用"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

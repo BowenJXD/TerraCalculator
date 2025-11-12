@@ -2,23 +2,15 @@ package com.example.tmcalculator;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.tmcalculator.databinding.ActivitySimulationBinding;
 
 public class SimulationActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
     private ActivitySimulationBinding binding;
+    private InputFragment inputFragment;
+    private SnapshotFragment snapshotFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +19,9 @@ public class SimulationActivity extends AppCompatActivity {
         binding = ActivitySimulationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_simulation);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_simulation);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        inputFragment = new InputFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag_input, inputFragment).addToBackStack("frag_input").commit();
+        snapshotFragment = new SnapshotFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag_list, snapshotFragment).addToBackStack("frag_list").commit();
     }
 }

@@ -11,33 +11,31 @@
 
     <!-- Horizontal Guideline 200dp from the bottom -->
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom_200"
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="116dp" />
 
     <!-- Top section fills everything above the 200dp guideline -->
-    <include
-        android:id="@+id/include_fragment_list"
-        layout="@layout/fragment_item_list"
+    <FrameLayout
+        android:id="@+id/frag_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_bottom_200"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Bottom section occupies the last 200dp area -->
-    <include
-        android:id="@+id/include_content_simulation"
-        layout="@layout/content_simulation"
+    <FrameLayout
+        android:id="@+id/frag_input"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/guideline_bottom_200"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

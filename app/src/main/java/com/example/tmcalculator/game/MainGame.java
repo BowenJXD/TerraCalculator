@@ -38,7 +38,8 @@ public class MainGame {
 
     public void loadBaseChangeMap() {
         Gson gson = new Gson();
-        Type type = new TypeToken<HashMap<String, GameDataChange>>(){}.getType();
+        Type type = new TypeToken<HashMap<String, GameDataChange>>() {
+        }.getType();
         try {
             InputStream inputStream = context.getAssets().open(BASE_CHANGE_MAP_PATH);
             InputStreamReader reader = new InputStreamReader(inputStream);
@@ -64,17 +65,19 @@ public class MainGame {
     public GameSnapshot calculate(String action, GameSnapshot ss) {
         GameSnapshot result = ss.clone();
         GameDataChange change = actionChangeMap.get(action);
-        result = applyChange(result, change);
+        if (change != null) {
+            applyChange(result, change);
+            convert(ss);
+        }
         if (!checkValid(result)) {
             return null;
         }
         GameDataChange settingChange = setting.getChange(action);
-        result = applyChange(result, settingChange);
+        applyChange(result, settingChange);
         return result;
     }
 
-    public GameSnapshot applyChange(GameSnapshot ss, GameDataChange change){
-        GameSnapshot result = ss.clone();
+    public void applyChange(GameSnapshot ss, GameDataChange change) {
         ss.coin += change.coin;
         ss.worker += change.worker;
         ss.priest += change.priest;
@@ -85,31 +88,12 @@ public class MainGame {
         // conversion logic
         int overflow;
         if (change.power > 0) {
-            overflow = gainPower(result, change.power);
+            overflow = gainPower(ss, change.power);
             ss.coin += overflow / 2;
             overflow = 0;
         } else {
             overflow = losePower(ss, -change.power);
         }
-
-        if (ss.priest < 0) {}
-        if (ss.coin < 0 && ss.power3 > 0) {
-            if (ss.power3 < -ss.coin) {
-                losePower(ss, ss.coin - ss.power3);
-            }
-        }
-        if (ss.coin < 0 && ss.worker > 0) {
-            int workerToRemove = Math.min(ss.worker, -ss.coin);
-            ss.worker -= workerToRemove;
-            ss.coin += workerToRemove;
-        }
-        if (ss.coin < 0 && ss.priest > 0) {
-            int priestToRemove = Math.min(ss.priest, -ss.coin);
-            ss.priest -= priestToRemove;
-            ss.coin += priestToRemove;
-        }
-
-        return result;
     }
 
     public int gainPower(GameSnapshot ss, int amount) {
@@ -150,46 +134,128 @@ public class MainGame {
     }
 
     public int removePower2ForPower3(GameSnapshot ss, int amount) {
-        int powerToRemove = Math.min(ss.power2/2, amount);
+        int powerToRemove = Math.min(ss.power2 / 2, amount);
         ss.power2 -= powerToRemove * 2;
         ss.power3 += powerToRemove;
         amount -= powerToRemove;
         return amount;
     }
 
-    public void convertPowerToPriest(GameSnapshot ss, int amount) {
+    public void convert(GameSnapshot ss) {
+        for (GameAction action : setting.conversionPriority) {
+            switch (action) {
+                case CONVERT_POWER_TO_COIN:
+                    if (ss.coin < 0) {
+                        convertPowerToCoin(ss, -ss.coin);
+                    }
+                    break;
+                case CONVERT_POWER_TO_WORKER:
+                    if (ss.worker < 0) {
+                        convertPowerToWorker(ss, -ss.worker);
+                    }
+                    break;
+                case CONVERT_POWER_TO_PRIEST:
+                    if (ss.priest < 0) {
+                        convertPowerToPriest(ss, -ss.priest);
+                    }
+                    break;
+                case CONVERT_PRIEST_TO_WORKER:
+                    if (ss.worker < 0) {
+                        convertPriestToWorker(ss, -ss.worker);
+                    }
+                    break;
+                case CONVERT_WORKER_TO_COIN:
+                    if (ss.coin < 0) {
+                        convertWorkerToCoin(ss, -ss.coin);
+                    }
+                    break;
+                case CONVERT_PRIEST_TO_COIN:
+                    if (ss.coin < 0) {
+                        convertPriestToCoin(ss, -ss.coin);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
+    /**
+     *
+     * @param ss
+     * @param amount the amount needed
+     */
+    public void convertPowerToPriest(GameSnapshot ss, int amount) {
+        if (ss.priest >= 0) return;
+        GameDataChange change = actionChangeMap.get(GameAction.CONVERT_POWER_TO_PRIEST.toString());
+        if (change != null) {
+            while (ss.power3 > -change.power || amount > 0) {
+                applyChange(ss, change);
+                amount -= change.priest;
+            }
+        }
     }
 
     public void convertPowerToWorker(GameSnapshot ss, int amount) {
-
+        if (ss.worker >= 0) return;
+        GameDataChange change = actionChangeMap.get(GameAction.CONVERT_POWER_TO_WORKER.toString());
+        if (change != null) {
+            while (ss.power3 > -change.power || amount > 0) {
+                applyChange(ss, change);
+                amount -= change.worker;
+            }
+        }
     }
 
     public void convertPowerToCoin(GameSnapshot ss, int amount) {
-
+        if (ss.coin >= 0) return;
+        GameDataChange change = actionChangeMap.get(GameAction.CONVERT_POWER_TO_COIN.toString());
+        if (change != null) {
+            while (ss.power3 > -change.power || amount > 0) {
+                applyChange(ss, change);
+                amount -= change.coin;
+            }
+        }
     }
 
     public void convertPriestToWorker(GameSnapshot ss, int amount) {
-
+        if (ss.worker >= 0) return;
+        GameDataChange change = actionChangeMap.get(GameAction.CONVERT_PRIEST_TO_WORKER.toString());
+        if (change != null) {
+            while (ss.priest > -change.priest || amount > 0) {
+                applyChange(ss, change);
+                amount -= change.worker;
+            }
+        }
     }
 
     public void convertWorkerToCoin(GameSnapshot ss, int amount) {
-
+        if (ss.coin >= 0) return;
+        GameDataChange change = actionChangeMap.get(GameAction.CONVERT_WORKER_TO_COIN.toString());
+        if (change != null) {
+            while (ss.worker > -change.worker || amount > 0) {
+                applyChange(ss, change);
+                amount -= change.coin;
+            }
+        }
     }
 
     public void convertPriestToCoin(GameSnapshot ss, int amount) {
-
-    }
-
-    public void convertToCoinFromPower3(GameSnapshot ss, int amount) {
-        int powerToRemove = Math.min(ss.power3, amount);
-        ss.power1 += powerToRemove;
-        ss.power3 -= powerToRemove;
-        ss.coin += powerToRemove;
+        if (ss.coin >= 0) return;
+        GameDataChange change = actionChangeMap.get(GameAction.CONVERT_PRIEST_TO_COIN.toString());
+        if (change != null) {
+            while (ss.priest > -change.priest || amount > 0) {
+                applyChange(ss, change);
+                amount -= change.coin;
+            }
+        }
     }
 
     public boolean checkValid(GameSnapshot ss) {
-        // TODO: check if snapshot can exist
-        return true;
+        boolean result = true;
+        if (ss.coin < 0 || ss.worker < 0 || ss.priest < 0 || ss.vp < 0 || ss.power3 < 0 || ss.power2 < 0 || ss.power1 < 0) {
+            result = false;
+        }
+        return result;
     }
 }

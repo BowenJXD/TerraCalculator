@@ -1,7 +1,9 @@
 package com.example.tmcalculator.game;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
 
+@Entity(tableName = "snapshot")
 public class GameSnapshot implements Cloneable {
     public int coin;
     public int worker;

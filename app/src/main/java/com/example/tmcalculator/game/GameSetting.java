@@ -1,7 +1,6 @@
 package com.example.tmcalculator.game;
 
 import com.example.tmcalculator.game.characters.GameCharacter;
-import com.example.tmcalculator.game.vpmods.GameVPMod;
 
 
 import java.util.ArrayList;
@@ -13,15 +12,15 @@ import java.util.List;
 public class GameSetting {
     public HashMap<String, GameDataChange> actionChangeMap;
 
-    public List<Conversion> conversionPriority = Arrays.asList(
-            Conversion.POWER_TO_COIN,
-            Conversion.WORKER_TO_COIN,
-            Conversion.POWER2_TO_POWER3,
-            Conversion.POWER_TO_COIN,
-            Conversion.POWER_TO_WORKER,
-            Conversion.POWER_TO_PRIEST,
-            Conversion.PRIEST_TO_WORKER,
-            Conversion.PRIEST_TO_COIN
+    public List<GameAction> conversionPriority = Arrays.asList(
+            GameAction.CONVERT_POWER_TO_COIN,
+            GameAction.CONVERT_WORKER_TO_COIN,
+            // GameAction.CONVERT_POWER2_TO_POWER3,
+            // GameAction.CONVERT_POWER_TO_COIN,
+            GameAction.CONVERT_POWER_TO_WORKER,
+            GameAction.CONVERT_POWER_TO_PRIEST,
+            GameAction.CONVERT_PRIEST_TO_WORKER,
+            GameAction.CONVERT_PRIEST_TO_COIN
             );
 
 
