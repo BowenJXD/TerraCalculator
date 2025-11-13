@@ -39,7 +39,7 @@ public class InputFragment extends Fragment {
             snapshot.power1 = tryParseInt(binding.inputPower1.getText().toString());
             snapshot.power2 = tryParseInt(binding.inputPower2.getText().toString());
             snapshot.power3 = tryParseInt(binding.inputPower3.getText().toString());
-            viewModel.insert(snapshot);
+            viewModel.setSnapshot(snapshot, 0);
         });
     }
 

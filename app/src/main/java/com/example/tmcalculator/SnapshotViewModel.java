@@ -8,50 +8,64 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.tmcalculator.game.GameSnapshot;
+import com.example.tmcalculator.game.MainGame;
+import com.example.tmcalculator.game.Simulation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SnapshotViewModel extends AndroidViewModel {
-    private final MutableLiveData<List<GameSnapshot>> snapshots = new MutableLiveData<>();
+    private final MutableLiveData<Simulation> simulation = new MutableLiveData<>();
+    private MainGame mainGame;
 
     public SnapshotViewModel(@NonNull Application application) {
         super(application);
-        snapshots.setValue(new ArrayList<>());
+        simulation.setValue(new Simulation());
+        mainGame = MainGame.getInstance(application.getBaseContext());
     }
 
-    public LiveData<List<GameSnapshot>> getSnapshots() {
-        return snapshots;
+    public LiveData<Simulation> getSimulation() {
+        return simulation;
     }
 
-    public void insert(GameSnapshot snapshot) {
-        List<GameSnapshot> currentList = snapshots.getValue();
-        if (currentList != null) {
-            ArrayList<GameSnapshot> updatedList = new ArrayList<>(currentList);
-            updatedList.add(snapshot);
-            snapshots.setValue(updatedList);
+    /**
+     * Sets the snapshot at the given index, and set the action[index-1] to be CUSTOM if index is not 0.
+     * Recalculate the snapshots after
+     *
+     * @param snapshot
+     * @param index
+     * @return
+     */
+    public boolean setSnapshot(GameSnapshot snapshot, int index) {
+        Simulation sim = this.simulation.getValue();
+        if (sim == null) return false;
+        List<GameSnapshot> currentList = sim.getSnapshots();
+        if (currentList == null || currentList.size() < index) return false;
+        if (index == currentList.size()) {
+            currentList.add(snapshot);
+        } else {
+            currentList.set(index, snapshot);
         }
+        sim.setSnapshots(currentList);
+        Simulation result = mainGame.simulateSnapshots(sim, index);
+        if (result == null) return false;
+        this.simulation.setValue(result);
+        return true;
     }
 
-    public void delete(GameSnapshot snapshot) {
-        List<GameSnapshot> currentList = snapshots.getValue();
-        if (currentList != null) {
-            ArrayList<GameSnapshot> updatedList = new ArrayList<>(currentList);
-            updatedList.remove(snapshot);
-            snapshots.setValue(updatedList);
+    public boolean setAction(String action, int index) {
+        Simulation sim = this.simulation.getValue();
+        if (sim == null) return false;
+        List<String> currentList = sim.getActions();
+        if (currentList == null || currentList.size() < index) return false;
+        if (index == currentList.size()) {
+            currentList.add(action);
+        } else {
+            currentList.set(index, action);
         }
+        sim.setActions(currentList);
+        Simulation result = mainGame.simulateAll(sim, index);
+        if (result == null) return false;
+        this.simulation.setValue(result);
+        return true;
     }
-
-    public void update(GameSnapshot snapshot) {
-        List<GameSnapshot> currentList = snapshots.getValue();
-        if (currentList != null) {
-            ArrayList<GameSnapshot> updatedList = new ArrayList<>(currentList);
-            int index = updatedList.indexOf(snapshot);
-            if (index != -1) {
-                updatedList.set(index, snapshot);
-                snapshots.setValue(updatedList);
-            }
-        }
-    }
-
 }

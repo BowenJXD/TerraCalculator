@@ -2,17 +2,15 @@ package com.example.tmcalculator.game;
 
 import android.content.Context;
 
-import com.example.tmcalculator.game.characters.GameCharacter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class MainGame {
     public HashMap<String, GameDataChange> actionChangeMap;
@@ -29,12 +27,20 @@ public class MainGame {
     private final Context context;
 
     public static final String BASE_CHANGE_MAP_PATH = "json/characters/base.json";
+    private static MainGame instance;
 
-    public MainGame(Context context) {
-        this.context = context;
+    private MainGame(Context context) {
+        this.context = context.getApplicationContext();
         setting = new GameSetting();
         loadBaseChangeMap();
         loadAllCharacters();
+    }
+
+    public static synchronized MainGame getInstance(Context context) {
+        if (instance == null) {
+            instance = new MainGame(context);
+        }
+        return instance;
     }
 
     public void loadBaseChangeMap() {
@@ -63,6 +69,54 @@ public class MainGame {
         actionChangeMap.values().removeIf(java.util.Objects::isNull);
     }
 
+    public Simulation simulateAll(Simulation simulation, int startFrom) {
+        Simulation result = simulateChanges(simulation, startFrom);
+        result = simulateSnapshots(result, startFrom);
+        return result;
+    }
+
+    public Simulation simulateChanges(Simulation simulation, int startFrom) {
+        Simulation result = simulation.clone();
+        List<GameDataChange> changes = result.getChanges();
+        List<String> actions = result.getActions();
+
+        // Setup changes
+        for (int i = startFrom; i < actions.size(); i++) {
+            String action = actions.get(i);
+            GameDataChange change = getChange(action);
+            if (change != null) {
+                if (changes.size() <= i) changes.add(change);
+                else changes.set(i, change);
+            } else if (!Objects.equals(action, GameAction.CUSTOM.name())){
+                result.setActions(actions.subList(0, i));
+                result.setChanges(changes.subList(0, i));
+                break;
+            }
+        }
+        return result;
+    }
+
+    public Simulation simulateSnapshots(Simulation simulation, int startFrom) {
+        Simulation result = simulation.clone();
+        List<GameSnapshot> snapshots = result.getSnapshots();
+        List<GameDataChange> changes = result.getChanges();
+
+        // Setup snapshots
+        for (int i = startFrom; i < simulation.getChanges().size(); i++) {
+            GameSnapshot ss = snapshots.get(i).clone();
+            GameDataChange change = changes.get(i);
+            applyChange(ss, change);
+            convert(ss);
+            if (snapshots.size() <= i+1) snapshots.add(ss);
+            else snapshots.set(i+1, ss);
+            if (!checkValid(ss)) {
+                result.setSnapshots(snapshots.subList(0, i));
+                break;
+            }
+        }
+        return result;
+    }
+
     public GameSnapshot calculate(String action, GameSnapshot ss) {
         GameSnapshot result = ss.clone();
         GameDataChange change = actionChangeMap.get(action);
@@ -78,6 +132,16 @@ public class MainGame {
             applyChange(result, settingChange);
         }
         return result;
+    }
+
+    public GameDataChange getChange(String action) {
+        GameDataChange change = actionChangeMap.get(action);
+        if (change == null) return null;
+        GameDataChange settingChange = setting.getChange(action);
+        if (settingChange != null) {
+            change = addChange(change, settingChange);
+        }
+        return change;
     }
 
     public void applyChange(GameSnapshot ss, GameDataChange change) {
@@ -97,6 +161,18 @@ public class MainGame {
         } else {
             overflow = losePower(ss, -change.power);
         }
+    }
+
+    public GameDataChange addChange(GameDataChange change1, GameDataChange change2) {
+        GameDataChange result = new GameDataChange();
+        result.coin = change1.coin + change2.coin;
+        result.worker = change1.worker + change2.worker;
+        result.priest = change1.priest + change2.priest;
+        result.power = change1.power + change2.power;
+        result.vp = change1.vp + change2.vp;
+        result.shipping = change1.shipping + change2.shipping;
+        result.shovel = change1.shovel + change2.shovel;
+        return result;
     }
 
     public int gainPower(GameSnapshot ss, int amount) {

@@ -19,16 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.game.MainGame;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A fragment representing a list of Items.
@@ -39,7 +33,7 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private MainGame mainGame;
-    private Map<String, Map<String, String>> actionMap;
+    private ActionManager actionManager;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,30 +57,16 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
         recyclerView.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(requireActivity()).get(SnapshotViewModel.class);
-        viewModel.getSnapshots().observe(getViewLifecycleOwner(), snapshots -> {
-            adapter.setSnapshots(snapshots);
+        viewModel.getSimulation().observe(getViewLifecycleOwner(), simulation -> {
+            adapter.setSnapshots(simulation.getSnapshots());
             adapter.notifyDataSetChanged();
         });
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        mainGame = new MainGame(getContext());
-        loadActionMap();
+        mainGame = MainGame.getInstance(getContext());
+        actionManager = ActionManager.getInstance(getContext());
         return rootView;
-    }
-
-    private void loadActionMap() {
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, Map<String, String>>>() {
-        }.getType();
-        try {
-            InputStream inputStream = getContext().getAssets().open("json/localization/CHS/action.json");
-            InputStreamReader reader = new InputStreamReader(inputStream);
-            actionMap = gson.fromJson(reader, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error loading actions", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -97,43 +77,39 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
     @Override
     public void onDeleteSnapshot(GameSnapshot ss) {
         Toast.makeText(getContext(), "Delete: " + ss.vp, Toast.LENGTH_SHORT).show();
-        viewModel.delete(ss);
     }
 
     @Override
-    public void onAction(GameSnapshot ss, View anchor, Button btnAction) {
-        if (actionMap == null) {
+    public void onAction(GameSnapshot ss, View anchor, Button btnAction, int position) {
+        if (actionManager == null) {
             Toast.makeText(getContext(), "Actions not loaded", Toast.LENGTH_SHORT).show();
             return;
         }
 
         PopupMenu popupMenu = new PopupMenu(getContext(), anchor);
         Menu menu = popupMenu.getMenu();
-        Map<Integer, String> idToActionMap = new HashMap<>();
         Map<Integer, String> idToKeyMap = new HashMap<>();
         int idCounter = 1;
 
-        for (Map.Entry<String, Map<String, String>> category : actionMap.entrySet()) {
+        for (Map.Entry<String, Map<String, String>> category : actionManager.getActionTree().entrySet()) {
             SubMenu subMenu = menu.addSubMenu(category.getKey());
             for (Map.Entry<String, String> action : category.getValue().entrySet()) {
-                idToActionMap.put(idCounter, action.getValue());
                 idToKeyMap.put(idCounter, action.getKey());
-                subMenu.add(Menu.NONE, idCounter, Menu.NONE, action.getKey());
+                subMenu.add(Menu.NONE, idCounter, Menu.NONE, action.getValue());
                 idCounter++;
             }
         }
 
         popupMenu.setOnMenuItemClickListener(item -> {
-            String selectedAction = idToActionMap.get(item.getItemId());
             String selectedKey = idToKeyMap.get(item.getItemId());
-            if (selectedAction != null) {
-                GameSnapshot newSnapshot = mainGame.calculate(selectedAction, ss);
-                if (newSnapshot != null) {
-                    viewModel.insert(newSnapshot);
-                    btnAction.setText(selectedKey);
-                } else {
-                    Toast.makeText(getContext(), "Calculation Failed", Toast.LENGTH_SHORT).show();
-                }
+            if (selectedKey == null) return true;
+            String selectedAction = actionManager.getActionName(selectedKey);
+            if (selectedAction == null) return true;
+            boolean succeeded = viewModel.setAction(selectedKey, position);
+            if (succeeded) {
+                btnAction.setText(selectedAction);
+            } else {
+                Toast.makeText(getContext(), "Calculation Failed", Toast.LENGTH_SHORT).show();
             }
             return true;
         });

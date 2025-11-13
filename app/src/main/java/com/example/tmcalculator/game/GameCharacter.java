@@ -1,9 +1,5 @@
-package com.example.tmcalculator.game.characters;
+package com.example.tmcalculator.game;
 
-import com.example.tmcalculator.game.GameDataChange;
-import com.example.tmcalculator.game.GameAction;
-
-import java.util.Dictionary;
 import java.util.HashMap;
 
 public class GameCharacter {

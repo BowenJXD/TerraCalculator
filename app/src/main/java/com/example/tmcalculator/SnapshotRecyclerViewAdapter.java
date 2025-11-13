@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.tmcalculator.game.GameSnapshot;
-import com.example.tmcalculator.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.tmcalculator.databinding.ItemSnapshotBinding;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
     public interface OnSnapshotActionListener{
         void onEditSnapshot(GameSnapshot ss);
         void onDeleteSnapshot(GameSnapshot ss);
-        void onAction(GameSnapshot ss, View anchor, Button btnAction);
+        void onAction(GameSnapshot ss, View anchor, Button btnAction, int position);
     }
 
     public SnapshotRecyclerViewAdapter(OnSnapshotActionListener listener) {
@@ -65,7 +64,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
 
         holder.btnAction.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onAction(ss, v, holder.btnAction);
+                listener.onAction(ss, v, holder.btnAction, position);
             }
         });
     }
