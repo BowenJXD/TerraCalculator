@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameSetting {
-    public HashMap<String, GameDataChange> actionChangeMap;
+    public HashMap<String, GameDataChange> actionChangeMap = new HashMap<>();
 
     public List<GameAction> conversionPriority = Arrays.asList(
             GameAction.CONVERT_POWER_TO_COIN,

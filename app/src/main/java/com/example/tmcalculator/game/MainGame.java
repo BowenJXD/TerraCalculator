@@ -26,12 +26,13 @@ public class MainGame {
     public GameCharacter character;
     public HashMap<String, GameCharacter> allCharacters;
 
-    private Context context;
+    private final Context context;
 
-    public static final String BASE_CHANGE_MAP_PATH = "json/base.json";
+    public static final String BASE_CHANGE_MAP_PATH = "json/characters/base.json";
 
     public MainGame(Context context) {
         this.context = context;
+        setting = new GameSetting();
         loadBaseChangeMap();
         loadAllCharacters();
     }
@@ -73,7 +74,9 @@ public class MainGame {
             return null;
         }
         GameDataChange settingChange = setting.getChange(action);
-        applyChange(result, settingChange);
+        if (settingChange != null) {
+            applyChange(result, settingChange);
+        }
         return result;
     }
 

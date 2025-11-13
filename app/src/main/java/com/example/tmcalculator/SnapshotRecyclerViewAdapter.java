@@ -29,6 +29,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
     public interface OnSnapshotActionListener{
         void onEditSnapshot(GameSnapshot ss);
         void onDeleteSnapshot(GameSnapshot ss);
+        void onAction(GameSnapshot ss, View anchor, Button btnAction);
     }
 
     public SnapshotRecyclerViewAdapter(OnSnapshotActionListener listener) {
@@ -61,6 +62,12 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
         holder.tvPriest.setText(String.valueOf(ss.priest));
         String powerStr = String.format("%d|%d|%d", ss.power1, ss.power2, ss.power3);
         holder.tvPower.setText(powerStr);
+
+        holder.btnAction.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAction(ss, v, holder.btnAction);
+            }
+        });
     }
 
     @Override
@@ -76,7 +83,6 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
         public TextView tvWorker;
         public TextView tvPriest;
         public TextView tvPower;
-        public ImageButton btnDetail;
 
         public ViewHolder(ItemSnapshotBinding binding) {
             super(binding.getRoot());
@@ -86,7 +92,6 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
             tvWorker = binding.tvWorker;
             tvPriest = binding.tvPriest;
             tvPower = binding.tvPower;
-            btnDetail = binding.btnDetail;
         }
     }
 }

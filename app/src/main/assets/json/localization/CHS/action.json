@@ -1,0 +1,88 @@
+{
+  "建造建筑": {
+    "聚落": "BUILD_DWELLING",
+    "贸易站（未连接）": "BUILD_TRADING_HOUSE_UNCONNECTED",
+    "贸易站（已连接）": "BUILD_TRADING_HOUSE_CONNECTED",
+    "寺庙": "BUILD_TEMPLE",
+    "要塞": "BUILD_STRONGHOLD",
+    "圣殿": "BUILD_SANCTUARY"
+  },
+  "升级科技": {
+    "铲子1->2": "UPGRADE_SHOVEL_L1_L2",
+    "铲子2->3": "UPGRADE_SHOVEL_L2_L3",
+    "航海0->1": "UPGRADE_SHIPPING_L0_L1",
+    "航海1->2": "UPGRADE_SHIPPING_L1_L2",
+    "航海2->3": "UPGRADE_SHIPPING_L2_L3"
+  },
+  "魔力行动": {
+    "桥": "POWER_ACTION_BRIDGE",
+    "祭司": "POWER_ACTION_PRIEST",
+    "工人": "POWER_ACTION_WORKER",
+    "金币": "POWER_ACTION_COIN",
+    "铲地*1": "POWER_ACTION_SINGLE_SHOVEL",
+    "铲地*2": "POWER_ACTION_DOUBLE_SHOVEL"
+  },
+  "铲地": {
+    "1级（1次）": "SHOVEL_L1_ONCE",
+    "1级（2次）": "SHOVEL_L1_TWICE",
+    "1级（3次）": "SHOVEL_L1_THRICE",
+    "2级（1次）": "SHOVEL_L2_ONCE",
+    "2级（2次）": "SHOVEL_L2_TWICE",
+    "2级（3次）": "SHOVEL_L2_THRICE",
+    "3级（1次）": "SHOVEL_L3_ONCE",
+    "3级（2次）": "SHOVEL_L3_TWICE",
+    "3级（3次）": "SHOVEL_L3_THRICE"
+  },
+  "兴建城镇": {
+    "分数": "TOWN_VP",
+    "祭司": "TOWN_PRIEST",
+    "信仰": "TOWN_CULT",
+    "工人": "TOWN_WORKER",
+    "魔力": "TOWN_POWER",
+    "金币": "TOWN_COIN",
+    "航海": "TOWN_SHIPPING",
+    "双倍信仰": "TOWN_DOUBLE_CULT"
+  },
+  "转换": {
+    "牺牲魔力": "CONVERT_POWER2_TO_POWER3",
+    "魔力->祭司": "CONVERT_POWER_TO_PRIEST",
+    "魔力->工人": "CONVERT_POWER_TO_WORKER",
+    "魔力->金币": "CONVERT_POWER_TO_COIN",
+    "祭司->工人": "CONVERT_PRIEST_TO_WORKER",
+    "工人->金币": "CONVERT_WORKER_TO_COIN",
+    "祭司->金币": "CONVERT_PRIEST_TO_COIN"
+  },
+  "蹭魔力": {
+    "1点": "LOSE_VP_GAIN_POWER_1",
+    "2点": "LOSE_VP_GAIN_POWER_2",
+    "3点": "LOSE_VP_GAIN_POWER_3",
+    "4点": "LOSE_VP_GAIN_POWER_4",
+    "5点": "LOSE_VP_GAIN_POWER_5",
+    "6点": "LOSE_VP_GAIN_POWER_6",
+    "7点": "LOSE_VP_GAIN_POWER_7",
+    "8点": "LOSE_VP_GAIN_POWER_8",
+    "9点": "LOSE_VP_GAIN_POWER_9",
+    "10点": "LOSE_VP_GAIN_POWER_10",
+    "11点": "LOSE_VP_GAIN_POWER_11",
+    "12点": "LOSE_VP_GAIN_POWER_12"
+  },
+  "获得魔力": {
+    "1点": "POWER_GAIN_1",
+    "2点": "POWER_GAIN_2",
+    "3点": "POWER_GAIN_3",
+    "4点": "POWER_GAIN_4",
+    "5点": "POWER_GAIN_5",
+    "6点": "POWER_GAIN_6",
+    "7点": "POWER_GAIN_7",
+    "8点": "POWER_GAIN_8",
+    "9点": "POWER_GAIN_9",
+    "10点": "POWER_GAIN_10",
+    "11点": "POWER_GAIN_11",
+    "12点": "POWER_GAIN_12"
+  },
+  "其他": {
+    "消耗祭司": "PRIEST_EXHAUST",
+    "自定义": "CUSTOM",
+    "无": "NONE"
+  }
+}

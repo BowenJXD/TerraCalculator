@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="分数"
-            android:inputType="textPersonName" />
+            android:inputType="number"
+            android:text="100" />
 
         <EditText
             android:id="@+id/inputCoin"
@@ -33,7 +34,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="金币"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="10" />
 
         <EditText
             android:id="@+id/inputWorker"
@@ -41,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="工人"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="8" />
 
         <EditText
             android:id="@+id/inputPriest"
@@ -49,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="祭司"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="3" />
 
         <EditText
             android:id="@+id/inputPower1"
@@ -57,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:hint="魔力1"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="2" />
 
         <EditText
             android:id="@+id/inputPower2"
@@ -65,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:hint="魔力2"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="4" />
 
         <EditText
             android:id="@+id/inputPower3"
@@ -73,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:hint="魔力3"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="6" />
 
     </LinearLayout>
 
