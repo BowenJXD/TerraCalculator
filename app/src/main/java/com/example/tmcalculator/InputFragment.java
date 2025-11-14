@@ -59,8 +59,8 @@ public class InputFragment extends Fragment {
                 dwellingRating = currentSnapshot.dwelling;
                 tradingHouseRating = currentSnapshot.tradingHouse;
                 templeRating = currentSnapshot.temple;
-                hasStronghold = currentSnapshot.hasStronghold;
-                hasSanctuary = currentSnapshot.hasSanctuary;
+                hasStronghold = currentSnapshot.stronghold > 0;
+                hasSanctuary = currentSnapshot.sanctuary > 0;
 
                 shovelLevel = currentSnapshot.shovel;
                 shippingLevel = currentSnapshot.shipping;
@@ -85,8 +85,8 @@ public class InputFragment extends Fragment {
             snapshot.dwelling = dwellingRating;
             snapshot.tradingHouse = tradingHouseRating;
             snapshot.temple = templeRating;
-            snapshot.hasStronghold = hasStronghold;
-            snapshot.hasSanctuary = hasSanctuary;
+            snapshot.stronghold = hasStronghold ? 1 : 0;
+            snapshot.sanctuary = hasSanctuary ? 1 : 0;
             viewModel.setSnapshot(snapshot, 0);
         });
     }

@@ -2,6 +2,7 @@ package com.example.tmcalculator.game;
 
 import android.content.Context;
 
+import com.example.tmcalculator.ActionManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -69,6 +70,7 @@ public class MainGame {
         actionChangeMap.values().removeIf(java.util.Objects::isNull);
     }
 
+    // TODO: combine simulateChanges and simulateSnapshots together to consider shovel / shipping change.
     public Simulation simulateAll(Simulation simulation, int startFrom) {
         Simulation result = simulateChanges(simulation, startFrom);
         result = simulateSnapshots(result, startFrom);
@@ -79,17 +81,18 @@ public class MainGame {
         Simulation result = simulation.clone();
         List<GameDataChange> changes = result.getChanges();
         List<String> actions = result.getActions();
+        List<GameSnapshot> snapshots = result.getSnapshots();
 
         // Setup changes
         for (int i = startFrom; i < actions.size(); i++) {
             String action = actions.get(i);
-            GameDataChange change = getChange(action);
+            GameSnapshot ss = snapshots.get(i);
+            GameDataChange change = getChange(action, ss);
             if (change != null) {
                 if (changes.size() <= i) changes.add(change);
                 else changes.set(i, change);
-            } else if (!Objects.equals(action, GameAction.CUSTOM.name())){
-                result.setActions(actions.subList(0, i));
-                result.setChanges(changes.subList(0, i));
+            } else if (!Objects.equals(action, GameAction.CUSTOM.name())) {
+                result.cutTo(i);
                 break;
             }
         }
@@ -107,10 +110,10 @@ public class MainGame {
             GameDataChange change = changes.get(i);
             applyChange(ss, change);
             convert(ss);
-            if (snapshots.size() <= i+1) snapshots.add(ss);
-            else snapshots.set(i+1, ss);
+            if (snapshots.size() <= i + 1) snapshots.add(ss);
+            else snapshots.set(i + 1, ss);
             if (!checkValid(ss)) {
-                result.setSnapshots(snapshots.subList(0, i));
+                result.cutTo(i);
                 break;
             }
         }
@@ -134,8 +137,12 @@ public class MainGame {
         return result;
     }
 
-    public GameDataChange getChange(String action) {
+    public GameDataChange getChange(String action, GameSnapshot ss) {
         GameDataChange change = actionChangeMap.get(action);
+        if (change == null) {
+            String fullName = ActionManager.getInstance(context).mapToActionBySS(action, ss);
+            change = actionChangeMap.get(fullName);
+        }
         if (change == null) return null;
         GameDataChange settingChange = setting.getChange(action);
         if (settingChange != null) {
@@ -151,6 +158,11 @@ public class MainGame {
         ss.vp += change.vp;
         ss.shipping += change.shipping;
         ss.shovel += change.shovel;
+        ss.dwelling += change.dwelling;
+        ss.tradingHouse += change.tradingHouse;
+        ss.temple += change.temple;
+        ss.stronghold += change.stronghold;
+        ss.sanctuary += change.sanctuary;
 
         // conversion logic
         int overflow;
@@ -172,6 +184,11 @@ public class MainGame {
         result.vp = change1.vp + change2.vp;
         result.shipping = change1.shipping + change2.shipping;
         result.shovel = change1.shovel + change2.shovel;
+        result.dwelling = change1.dwelling + change2.dwelling;
+        result.tradingHouse = change1.tradingHouse + change2.tradingHouse;
+        result.temple = change1.temple + change2.temple;
+        result.stronghold = change1.stronghold + change2.stronghold;
+        result.sanctuary = change1.sanctuary + change2.sanctuary;
         return result;
     }
 
@@ -268,7 +285,7 @@ public class MainGame {
         if (ss.priest >= 0) return;
         GameDataChange change = actionChangeMap.get(GameAction.CONVERT_POWER_TO_PRIEST.toString());
         if (change != null) {
-            while (ss.power3 > -change.power || amount > 0) {
+            while (ss.power3 >= -change.power && amount > 0) {
                 applyChange(ss, change);
                 amount -= change.priest;
             }
@@ -279,7 +296,7 @@ public class MainGame {
         if (ss.worker >= 0) return;
         GameDataChange change = actionChangeMap.get(GameAction.CONVERT_POWER_TO_WORKER.toString());
         if (change != null) {
-            while (ss.power3 > -change.power || amount > 0) {
+            while (ss.power3 >= -change.power && amount > 0) {
                 applyChange(ss, change);
                 amount -= change.worker;
             }
@@ -290,7 +307,7 @@ public class MainGame {
         if (ss.coin >= 0) return;
         GameDataChange change = actionChangeMap.get(GameAction.CONVERT_POWER_TO_COIN.toString());
         if (change != null) {
-            while (ss.power3 > -change.power || amount > 0) {
+            while (ss.power3 >= -change.power && amount > 0) {
                 applyChange(ss, change);
                 amount -= change.coin;
             }
@@ -301,7 +318,7 @@ public class MainGame {
         if (ss.worker >= 0) return;
         GameDataChange change = actionChangeMap.get(GameAction.CONVERT_PRIEST_TO_WORKER.toString());
         if (change != null) {
-            while (ss.priest > -change.priest || amount > 0) {
+            while (ss.priest >= -change.priest && amount > 0) {
                 applyChange(ss, change);
                 amount -= change.worker;
             }
@@ -312,7 +329,7 @@ public class MainGame {
         if (ss.coin >= 0) return;
         GameDataChange change = actionChangeMap.get(GameAction.CONVERT_WORKER_TO_COIN.toString());
         if (change != null) {
-            while (ss.worker > -change.worker || amount > 0) {
+            while (ss.worker >= -change.worker && amount > 0) {
                 applyChange(ss, change);
                 amount -= change.coin;
             }
@@ -323,7 +340,7 @@ public class MainGame {
         if (ss.coin >= 0) return;
         GameDataChange change = actionChangeMap.get(GameAction.CONVERT_PRIEST_TO_COIN.toString());
         if (change != null) {
-            while (ss.priest > -change.priest || amount > 0) {
+            while (ss.priest >= -change.priest && amount > 0) {
                 applyChange(ss, change);
                 amount -= change.coin;
             }
@@ -333,6 +350,9 @@ public class MainGame {
     public boolean checkValid(GameSnapshot ss) {
         boolean result = true;
         if (ss.coin < 0 || ss.worker < 0 || ss.priest < 0 || ss.vp < 0 || ss.power3 < 0 || ss.power2 < 0 || ss.power1 < 0) {
+            result = false;
+        }
+        if (ss.dwelling > 8 || ss.tradingHouse > 4 || ss.temple > 3 || ss.stronghold > 1 || ss.sanctuary > 1) {
             result = false;
         }
         return result;

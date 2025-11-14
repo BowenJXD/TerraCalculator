@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.tmcalculator.game.GameAction;
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.databinding.ItemSnapshotBinding;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRecyclerViewAdapter.ViewHolder> {
 
     private List<GameSnapshot> snapshots;
+    private List<String> actions;
     private OnSnapshotActionListener listener;
     private Context context;
 
@@ -41,18 +43,33 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
         this.snapshots = snapshots;
     }
 
+    public List<String> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<String> actions) {
+        this.actions = actions;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_snapshot, parent, false);
         this.context = parent.getContext();
         return new ViewHolder(ItemSnapshotBinding.bind(view));
-
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         GameSnapshot ss = snapshots.get(position);
+        if (actions.size() < snapshots.size()) {
+            actions.add(GameAction.NONE.toString());
+        }
+        if (position < snapshots.size() - 1) {
+            String action = actions.get(position);
+            String actionName = ActionManager.getInstance(context).getActionName(action);
+            holder.btnAction.setText(actionName);
+        }
         holder.tvIndex.setText(String.valueOf(position + 1));
         holder.tvVp.setText(String.valueOf(ss.vp));
         holder.tvCoin.setText(String.valueOf(ss.coin));

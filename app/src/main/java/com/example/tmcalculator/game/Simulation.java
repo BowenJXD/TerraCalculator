@@ -70,6 +70,16 @@ public class Simulation implements Cloneable {
         this.change = change;
     }
 
+    public void cutTo(int index) {
+        snapshots = new ArrayList<>(snapshots.subList(0, index+1));
+        action = new ArrayList<>(action.subList(0, index));
+        change = new ArrayList<>(change.subList(0, index));
+    }
+
+    public int getLength(){
+        return snapshots.size();
+    }
+
     @NonNull
     @Override
     public Simulation clone() {

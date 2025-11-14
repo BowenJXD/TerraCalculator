@@ -13,12 +13,12 @@ public class GameSnapshot implements Cloneable {
     public int power2;
     public int power3;
     public int shipping;
-    public int shovel;
+    public int shovel = 1;
     public int dwelling;
     public int tradingHouse;
     public int temple;
-    public boolean hasStronghold;
-    public boolean hasSanctuary;
+    public int stronghold;
+    public int sanctuary;
 
     @NonNull
     @Override

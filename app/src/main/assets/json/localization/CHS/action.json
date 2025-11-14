@@ -8,40 +8,31 @@
     "BUILD_SANCTUARY": "圣殿"
   },
   "升级科技": {
-    "UPGRADE_SHOVEL_L1_L2": "铲子1->2",
-    "UPGRADE_SHOVEL_L2_L3": "铲子2->3",
-    "UPGRADE_SHIPPING_L0_L1": "航海0->1",
-    "UPGRADE_SHIPPING_L1_L2": "航海1->2",
-    "UPGRADE_SHIPPING_L2_L3": "航海2->3"
+    "UPGRADE_SHOVEL": "升级铲子",
+    "UPGRADE_SHIPPING": "升级航海"
   },
   "魔力行动": {
-    "POWER_ACTION_BRIDGE": "桥",
-    "POWER_ACTION_PRIEST": "祭司",
-    "POWER_ACTION_WORKER": "工人",
-    "POWER_ACTION_COIN": "金币",
-    "POWER_ACTION_SINGLE_SHOVEL": "铲地*1",
-    "POWER_ACTION_DOUBLE_SHOVEL": "铲地*2"
+    "POWER_ACTION_BRIDGE": "魔力桥",
+    "POWER_ACTION_PRIEST": "魔力祭司",
+    "POWER_ACTION_WORKER": "魔力工人",
+    "POWER_ACTION_COIN": "魔力金币",
+    "POWER_ACTION_SINGLE_SHOVEL": "魔力铲地*1",
+    "POWER_ACTION_DOUBLE_SHOVEL": "魔力铲地*2"
   },
   "铲地": {
-    "SHOVEL_L1_ONCE": "1级（1次）",
-    "SHOVEL_L1_TWICE": "1级（2次）",
-    "SHOVEL_L1_THRICE": "1级（3次）",
-    "SHOVEL_L2_ONCE": "2级（1次）",
-    "SHOVEL_L2_TWICE": "2级（2次）",
-    "SHOVEL_L2_THRICE": "2级（3次）",
-    "SHOVEL_L3_ONCE": "3级（1次）",
-    "SHOVEL_L3_TWICE": "3级（2次）",
-    "SHOVEL_L3_THRICE": "3级（3次）"
+    "SHOVEL_ONCE": "铲1次",
+    "SHOVEL_TWICE": "铲2次",
+    "SHOVEL_THRICE": "铲3次"
   },
   "兴建城镇": {
-    "TOWN_VP": "分数",
-    "TOWN_PRIEST": "祭司",
-    "TOWN_CULT": "信仰",
-    "TOWN_WORKER": "工人",
-    "TOWN_POWER": "魔力",
-    "TOWN_COIN": "金币",
-    "TOWN_SHIPPING": "航海",
-    "TOWN_DOUBLE_CULT": "双倍信仰"
+    "TOWN_VP": "城镇分数",
+    "TOWN_PRIEST": "城镇祭司",
+    "TOWN_CULT": "城镇信仰",
+    "TOWN_WORKER": "城镇工人",
+    "TOWN_POWER": "城镇魔力",
+    "TOWN_COIN": "城镇金币",
+    "TOWN_SHIPPING": "城镇航海",
+    "TOWN_DOUBLE_CULT": "城镇2信仰"
   },
   "转换": {
     "CONVERT_POWER2_TO_POWER3": "牺牲魔力",
@@ -53,36 +44,36 @@
     "CONVERT_PRIEST_TO_COIN": "祭司->金币"
   },
   "蹭魔力": {
-    "LEECH_POWER_1": "1点",
-    "LEECH_POWER_2": "2点",
-    "LEECH_POWER_3": "3点",
-    "LEECH_POWER_4": "4点",
-    "LEECH_POWER_5": "5点",
-    "LEECH_POWER_6": "6点",
-    "LEECH_POWER_7": "7点",
-    "LEECH_POWER_8": "8点",
-    "LEECH_POWER_9": "9点",
-    "LEECH_POWER_10": "10点",
-    "LEECH_POWER_11": "11点",
-    "LEECH_POWER_12": "12点"
+    "LEECH_POWER_1": "蹭1魔",
+    "LEECH_POWER_2": "蹭2魔",
+    "LEECH_POWER_3": "蹭3魔",
+    "LEECH_POWER_4": "蹭4魔",
+    "LEECH_POWER_5": "蹭5魔",
+    "LEECH_POWER_6": "蹭6魔",
+    "LEECH_POWER_7": "蹭7魔",
+    "LEECH_POWER_8": "蹭8魔",
+    "LEECH_POWER_9": "蹭9魔",
+    "LEECH_POWER_10": "蹭10魔",
+    "LEECH_POWER_11": "蹭11魔",
+    "LEECH_POWER_12": "蹭12魔"
   },
   "获得魔力": {
-    "POWER_GAIN_1": "1点",
-    "POWER_GAIN_2": "2点",
-    "POWER_GAIN_3": "3点",
-    "POWER_GAIN_4": "4点",
-    "POWER_GAIN_5": "5点",
-    "POWER_GAIN_6": "6点",
-    "POWER_GAIN_7": "7点",
-    "POWER_GAIN_8": "8点",
-    "POWER_GAIN_9": "9点",
-    "POWER_GAIN_10": "10点",
-    "POWER_GAIN_11": "11点",
-    "POWER_GAIN_12": "12点"
+    "POWER_GAIN_1": "1点魔",
+    "POWER_GAIN_2": "2点魔",
+    "POWER_GAIN_3": "3点魔",
+    "POWER_GAIN_4": "4点魔",
+    "POWER_GAIN_5": "5点魔",
+    "POWER_GAIN_6": "6点魔",
+    "POWER_GAIN_7": "7点魔",
+    "POWER_GAIN_8": "8点魔",
+    "POWER_GAIN_9": "9点魔",
+    "POWER_GAIN_10": "10点魔",
+    "POWER_GAIN_11": "11点魔",
+    "POWER_GAIN_12": "12点魔"
   },
   "其他": {
     "PRIEST_EXHAUST": "消耗祭司",
     "CUSTOM": "自定义",
-    "NONE": "无"
+    "NONE": "选择行动"
   }
 }

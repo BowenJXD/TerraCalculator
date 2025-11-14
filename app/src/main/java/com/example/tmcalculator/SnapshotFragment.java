@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.game.MainGame;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,11 +55,13 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
         recyclerView = rootView.findViewById(R.id.list);
         adapter = new SnapshotRecyclerViewAdapter(this);
         adapter.setSnapshots(new ArrayList<>());
+        adapter.setActions(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(requireActivity()).get(SnapshotViewModel.class);
         viewModel.getSimulation().observe(getViewLifecycleOwner(), simulation -> {
             adapter.setSnapshots(simulation.getSnapshots());
+            adapter.setActions(simulation.getActions());
             adapter.notifyDataSetChanged();
         });
 
@@ -91,15 +94,15 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
         }
 
         popupMenu.setOnMenuItemClickListener(item -> {
-            String selectedKey = idToKeyMap.get(item.getItemId());
-            if (selectedKey == null) return true;
-            String selectedAction = actionManager.getActionName(selectedKey);
-            if (selectedAction == null) return true;
-            boolean succeeded = viewModel.setAction(selectedKey, position);
+            String actionKey = idToKeyMap.get(item.getItemId());
+            if (actionKey == null) return true;
+            String textToDisplay = actionManager.getActionName(actionKey);
+            if (textToDisplay == null) return true;
+            boolean succeeded = viewModel.setAction(actionKey, position);
             if (succeeded) {
-                btnAction.setText(selectedAction);
+                btnAction.setText(textToDisplay);
             } else {
-                Toast.makeText(getContext(), "Calculation Failed", Toast.LENGTH_SHORT).show();
+                Snackbar.make(anchor, "Calculation Failed", Snackbar.LENGTH_SHORT).show();
             }
             return true;
         });

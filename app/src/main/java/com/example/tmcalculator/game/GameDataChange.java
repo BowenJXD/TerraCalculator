@@ -8,4 +8,9 @@ public class GameDataChange {
     public int power;
     public int shipping;
     public int shovel;
+    public int dwelling;
+    public int tradingHouse;
+    public int temple;
+    public int stronghold;
+    public int sanctuary;
 }

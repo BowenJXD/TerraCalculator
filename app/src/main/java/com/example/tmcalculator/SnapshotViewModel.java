@@ -66,6 +66,7 @@ public class SnapshotViewModel extends AndroidViewModel {
         Simulation result = mainGame.simulateAll(sim, index);
         if (result == null) return false;
         this.simulation.setValue(result);
+        if (result.getLength() < sim.getLength()) return false;
         return true;
     }
 }
