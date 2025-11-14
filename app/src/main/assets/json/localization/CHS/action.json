@@ -53,18 +53,18 @@
     "CONVERT_PRIEST_TO_COIN": "祭司->金币"
   },
   "蹭魔力": {
-    "LOSE_VP_GAIN_POWER_1": "1点",
-    "LOSE_VP_GAIN_POWER_2": "2点",
-    "LOSE_VP_GAIN_POWER_3": "3点",
-    "LOSE_VP_GAIN_POWER_4": "4点",
-    "LOSE_VP_GAIN_POWER_5": "5点",
-    "LOSE_VP_GAIN_POWER_6": "6点",
-    "LOSE_VP_GAIN_POWER_7": "7点",
-    "LOSE_VP_GAIN_POWER_8": "8点",
-    "LOSE_VP_GAIN_POWER_9": "9点",
-    "LOSE_VP_GAIN_POWER_10": "10点",
-    "LOSE_VP_GAIN_POWER_11": "11点",
-    "LOSE_VP_GAIN_POWER_12": "12点"
+    "LEECH_POWER_1": "1点",
+    "LEECH_POWER_2": "2点",
+    "LEECH_POWER_3": "3点",
+    "LEECH_POWER_4": "4点",
+    "LEECH_POWER_5": "5点",
+    "LEECH_POWER_6": "6点",
+    "LEECH_POWER_7": "7点",
+    "LEECH_POWER_8": "8点",
+    "LEECH_POWER_9": "9点",
+    "LEECH_POWER_10": "10点",
+    "LEECH_POWER_11": "11点",
+    "LEECH_POWER_12": "12点"
   },
   "获得魔力": {
     "POWER_GAIN_1": "1点",

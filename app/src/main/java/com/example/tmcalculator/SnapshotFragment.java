@@ -70,16 +70,6 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
     }
 
     @Override
-    public void onEditSnapshot(GameSnapshot ss) {
-        Toast.makeText(getContext(), "Edit: " + ss.vp, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleteSnapshot(GameSnapshot ss) {
-        Toast.makeText(getContext(), "Delete: " + ss.vp, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onAction(GameSnapshot ss, View anchor, Button btnAction, int position) {
         if (actionManager == null) {
             Toast.makeText(getContext(), "Actions not loaded", Toast.LENGTH_SHORT).show();

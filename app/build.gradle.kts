@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.recyclerview)
     implementation("com.google.code.gson:gson:2.13.2")
     implementation(libs.room.common.jvm)
+    implementation(libs.gridlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

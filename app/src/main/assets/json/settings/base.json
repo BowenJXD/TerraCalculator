@@ -1,0 +1,69 @@
+{
+  "FAV_EARTH_1": {
+    "BUILD_DWELLING": {
+      "vp": 2
+    }
+  },
+  "FAV_WATER_1": {
+    "BUILD_TRADING_HOUSE_UNCONNECTED": {
+      "vp": 3
+    },
+    "BUILD_TRADING_HOUSE_CONNECTED": {
+      "vp": 3
+    }
+  },
+  "SCO_DVP": {
+    "BUILD_DWELLING": {
+      "vp": 2
+    }
+  },
+  "SCO_THVP": {
+    "BUILD_TRADING_HOUSE_UNCONNECTED": {
+      "vp": 3
+    },
+    "BUILD_TRADING_HOUSE_CONNECTED": {
+      "vp": 3
+    }
+  },
+  "SCO_SVP": {
+    "BUILD_STRONGHOLD": {
+      "vp": 2
+    },
+    "BUILD_SANCTUARY": {
+      "vp": 3
+    }
+  },
+  "SCO_SHOVP": {
+    "SHOVEL_*": {
+      "vp": 2
+    }
+  },
+  "SCO_TOWNVP": {
+    "TOWN_*": {
+      "vp": 5
+    }
+  },
+  "BON_DVP": {
+    "dwelling": {
+      "vp": 1
+    }
+  },
+  "BON_THVP": {
+    "tradingHouse": {
+      "vp": 2
+    }
+  },
+  "BON_SHIPVP": {
+    "shipping": {
+      "vp": 3
+    }
+  },
+  "BON_SVP": {
+    "stronghold": {
+      "vp": 4
+    },
+    "sanctuary": {
+      "vp": 4
+    }
+  }
+}

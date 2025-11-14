@@ -4,6 +4,7 @@ package com.example.tmcalculator;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.tmcalculator.game.GameSnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -67,5 +68,11 @@ public class ActionManager {
 
     public String getActionName(String actionId) {
         return actionMap.get(actionId);
+    }
+
+    public Map<String, Map<String, String>> getAvailableActionTree(GameSnapshot ss) {
+        Map<String, Map<String, String>> availableActions = new HashMap<>();
+
+        return availableActions;
     }
 }

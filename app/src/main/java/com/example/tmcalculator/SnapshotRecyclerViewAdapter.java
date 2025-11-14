@@ -26,8 +26,6 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
     private Context context;
 
     public interface OnSnapshotActionListener{
-        void onEditSnapshot(GameSnapshot ss);
-        void onDeleteSnapshot(GameSnapshot ss);
         void onAction(GameSnapshot ss, View anchor, Button btnAction, int position);
     }
 
@@ -55,6 +53,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         GameSnapshot ss = snapshots.get(position);
+        holder.tvIndex.setText(String.valueOf(position + 1));
         holder.tvVp.setText(String.valueOf(ss.vp));
         holder.tvCoin.setText(String.valueOf(ss.coin));
         holder.tvWorker.setText(String.valueOf(ss.worker));
@@ -75,6 +74,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvIndex;
         public Button btnAction;
 
         public TextView tvVp;
@@ -85,6 +85,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<SnapshotRe
 
         public ViewHolder(ItemSnapshotBinding binding) {
             super(binding.getRoot());
+            tvIndex = binding.tvIndex;
             btnAction = binding.btnAction;
             tvVp = binding.tvVp;
             tvCoin = binding.tvCoin;
