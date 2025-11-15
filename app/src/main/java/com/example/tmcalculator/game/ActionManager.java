@@ -3,6 +3,7 @@ package com.example.tmcalculator.game;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.tmcalculator.util.ContextManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,9 +23,8 @@ import java.util.Objects;
 public class ActionManager {
     private static ActionManager instance;
     private final Context context;
-
     private Map<String, List<String>> actionTree;
-    private static final String ACTION_TREE_PATH = "json/localization/CHS/actionTree.json";
+    private static final String ACTION_TREE_PATH = "json/localisation/CHS/actionTree.json";
     private String[] prefixes = {
             "UPGRADE_SHOVEL",
             "UPGRADE_SHIPPING",
@@ -35,14 +35,14 @@ public class ActionManager {
             "LEECH_POWER"
     };
 
-    private ActionManager(Context context) {
-        this.context = context.getApplicationContext();
+    private ActionManager() {
+        this.context = ContextManager.getContext();
         loadActionTree();
     }
 
-    public static synchronized ActionManager getInstance(Context context) {
+    public static synchronized ActionManager getInstance() {
         if (instance == null) {
-            instance = new ActionManager(context);
+            instance = new ActionManager();
         }
         return instance;
     }

@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.tmcalculator.game.ActionManager;
 import com.example.tmcalculator.game.GameAction;
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.databinding.ItemSnapshotBinding;
 import com.example.tmcalculator.databinding.ItemSnapshotHeaderBinding;
+import com.example.tmcalculator.util.LocalisationManager;
 
 import java.util.List;
 
@@ -84,10 +84,10 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             }
             if (itemPosition < snapshots.size() - 1) {
                 String action = actions.get(itemPosition);
-                String actionName = LocalisationManager.getInstance(context).getActionLocalisation(action);
+                String actionName = LocalisationManager.getInstance().getActionLocalisation(action);
                 itemHolder.btnAction.setText(actionName);
             } else if (itemPosition == snapshots.size() - 1) {
-                String actionName = LocalisationManager.getInstance(context).getActionLocalisation(GameAction.NONE.name());
+                String actionName = LocalisationManager.getInstance().getActionLocalisation(GameAction.NONE.name());
                 itemHolder.btnAction.setText(actionName);
             }
             itemHolder.tvIndex.setText(String.valueOf(itemPosition + 1));

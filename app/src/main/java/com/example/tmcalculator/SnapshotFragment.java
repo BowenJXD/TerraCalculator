@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tmcalculator.game.ActionManager;
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.game.SimResult;
+import com.example.tmcalculator.util.LocalisationManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -74,8 +75,8 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        actionManager = ActionManager.getInstance(getContext());
-        localisationManager = LocalisationManager.getInstance(getContext());
+        actionManager = ActionManager.getInstance();
+        localisationManager = LocalisationManager.getInstance();
         return rootView;
     }
 
@@ -105,7 +106,7 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
         popupMenu.setOnMenuItemClickListener(item -> {
             String actionKey = idToKeyMap.get(item.getItemId());
             if (actionKey == null) return true;
-            SimResult simResult = viewModel.setAction(actionKey, position);
+            viewModel.setAction(actionKey, position);
             return true;
         });
 

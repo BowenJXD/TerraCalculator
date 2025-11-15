@@ -12,6 +12,10 @@
       "vp": 3
     }
   },
+  "FAV_WIND_1": {
+    "tradingHouse": [1, 2, 3, 4],
+    "vp": [2, 3, 3, 4]
+  },
   "SCO_DVP": {
     "BUILD_DWELLING": {
       "vp": 2

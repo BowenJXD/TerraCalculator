@@ -1,11 +1,13 @@
 package com.example.tmcalculator;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tmcalculator.databinding.FragmentBottomSheetInputBinding;
 import com.example.tmcalculator.game.GameSnapshot;
+import com.example.tmcalculator.util.LocalisationManager;
 
 /**
  * Takes input from user and sets it as a snapshot (usually the initial snapshot) by passing it to {@link SnapshotViewModel}
@@ -29,6 +32,8 @@ public class InputFragment extends Fragment {
     private boolean hasStronghold = false;
     private int shovelLevel = 1;
     private int shippingLevel = 0;
+    private boolean[] selectedFavTiles;
+    private LocalisationManager localisationManager;
 
     @Nullable
     @Override
@@ -40,6 +45,8 @@ public class InputFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        localisationManager = LocalisationManager.getInstance();
+
         viewModel = new ViewModelProvider(requireActivity()).get(SnapshotViewModel.class);
 
         setupRatingBars();
@@ -48,49 +55,23 @@ public class InputFragment extends Fragment {
         binding.btnStronghold.setOnClickListener(v -> hasStronghold = !hasStronghold);
         binding.btnSanctuary.setOnClickListener(v -> hasSanctuary = !hasSanctuary);
 
-        viewModel.getSimulation().observe(getViewLifecycleOwner(), simulation -> {
-            if (simulation != null && !simulation.getSnapshots().isEmpty()) {
-                GameSnapshot currentSnapshot = simulation.getSnapshots().get(0);
-                binding.inputVp.setText(String.valueOf(currentSnapshot.vp));
-                binding.inputCoin.setText(String.valueOf(currentSnapshot.coin));
-                binding.inputWorker.setText(String.valueOf(currentSnapshot.worker));
-                binding.inputPriest.setText(String.valueOf(currentSnapshot.priest));
-                binding.inputPower1.setText(String.valueOf(currentSnapshot.power1));
-                binding.inputPower2.setText(String.valueOf(currentSnapshot.power2));
-                binding.inputPower3.setText(String.valueOf(currentSnapshot.power3));
-
-                dwellingRating = currentSnapshot.dwelling;
-                tradingHouseRating = currentSnapshot.tradingHouse;
-                templeRating = currentSnapshot.temple;
-                hasStronghold = currentSnapshot.stronghold > 0;
-                hasSanctuary = currentSnapshot.sanctuary > 0;
-
-                shovelLevel = currentSnapshot.shovel;
-                shippingLevel = currentSnapshot.shipping;
-                binding.sliderShovel.setValue(shovelLevel);
-                binding.sliderShipping.setValue(shippingLevel);
-
-                updateAllRatingVisuals();
-            }
-        });
-
         binding.btnApply.setOnClickListener(v -> {
-            GameSnapshot snapshot = new GameSnapshot();
-            snapshot.vp = tryParseInt(binding.inputVp.getText().toString());
-            snapshot.coin = tryParseInt(binding.inputCoin.getText().toString());
-            snapshot.worker = tryParseInt(binding.inputWorker.getText().toString());
-            snapshot.priest = tryParseInt(binding.inputPriest.getText().toString());
-            snapshot.power1 = tryParseInt(binding.inputPower1.getText().toString());
-            snapshot.power2 = tryParseInt(binding.inputPower2.getText().toString());
-            snapshot.power3 = tryParseInt(binding.inputPower3.getText().toString());
-            snapshot.shovel = shovelLevel;
-            snapshot.shipping = shippingLevel;
-            snapshot.dwelling = dwellingRating;
-            snapshot.tradingHouse = tradingHouseRating;
-            snapshot.temple = templeRating;
-            snapshot.stronghold = hasStronghold ? 1 : 0;
-            snapshot.sanctuary = hasSanctuary ? 1 : 0;
-            viewModel.setSnapshot(snapshot, 0);
+            GameSnapshot ss = new GameSnapshot();
+            ss.vp = tryParseInt(binding.inputVp.getText().toString());
+            ss.coin = tryParseInt(binding.inputCoin.getText().toString());
+            ss.worker = tryParseInt(binding.inputWorker.getText().toString());
+            ss.priest = tryParseInt(binding.inputPriest.getText().toString());
+            ss.power1 = tryParseInt(binding.inputPower1.getText().toString());
+            ss.power2 = tryParseInt(binding.inputPower2.getText().toString());
+            ss.power3 = tryParseInt(binding.inputPower3.getText().toString());
+            ss.shovel = shovelLevel;
+            ss.shipping = shippingLevel;
+            ss.dwelling = dwellingRating;
+            ss.tradingHouse = tradingHouseRating;
+            ss.temple = templeRating;
+            ss.stronghold = hasStronghold ? 1 : 0;
+            ss.sanctuary = hasSanctuary ? 1 : 0;
+            viewModel.setSnapshot(ss, 0);
         });
     }
 
@@ -203,6 +184,30 @@ public class InputFragment extends Fragment {
                 star.setImageResource(R.drawable.templeframe);
             }
         }
+    }
+
+    private void setupFavMenu() {
+        binding.btnFavor.setOnClickListener(v -> {
+            String[] favorList = localisationManager.getFavorList().toArray(new String[0]);
+            selectedFavTiles = new boolean[favorList.length];
+            AlertDialog alertDialog = new AlertDialog.Builder((requireContext()))
+                    .setMultiChoiceItems(favorList, selectedFavTiles, (dialog, which, isChecked) -> {
+                        // TODO
+                    }).setPositiveButton("OK", (dialog, which) -> {
+                        selectedFavTiles = new boolean[favorList.length];
+
+                    }).setNegativeButton("Cancel", (dialog, which) -> {
+
+                    }).create();
+            alertDialog.show();
+        });
+    }
+
+    private void setupBonMenu() {
+        binding.btnBonus.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(requireContext(), binding.btnBonus);
+
+        });
     }
 
     public int tryParseInt(String text) {

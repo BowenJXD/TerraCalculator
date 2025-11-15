@@ -83,7 +83,7 @@ public class MainGame {
             return;
         }
         actionChangeMap.putAll(character.actionChangeMap);
-        actionChangeMap.values().removeIf(java.util.Objects::isNull);
+        actionChangeMap.values().removeIf(Objects::isNull);
     }
 
     // TODO: combine simulateChanges and simulateSnapshots together to consider shovel / shipping change.
@@ -193,7 +193,7 @@ public class MainGame {
     public GameDataChange getChange(String action, GameSnapshot ss) {
         GameDataChange change = actionChangeMap.get(action);
         if (change == null) {
-            String fullName = ActionManager.getInstance(context).mapToActionBySS(action, ss);
+            String fullName = ActionManager.getInstance().mapToActionBySS(action, ss);
             change = actionChangeMap.get(fullName);
         }
         if (change == null) return null;
