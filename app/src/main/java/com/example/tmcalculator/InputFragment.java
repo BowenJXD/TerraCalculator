@@ -15,6 +15,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.tmcalculator.databinding.FragmentBottomSheetInputBinding;
 import com.example.tmcalculator.game.GameSnapshot;
 
+/**
+ * Takes input from user and sets it as a snapshot (usually the initial snapshot) by passing it to {@link SnapshotViewModel}
+ */
 public class InputFragment extends Fragment {
 
     private FragmentBottomSheetInputBinding binding;

@@ -11,6 +11,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+/**
+ * The first screen of the app.
+ * Transfers to the simulation screen after a delay.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

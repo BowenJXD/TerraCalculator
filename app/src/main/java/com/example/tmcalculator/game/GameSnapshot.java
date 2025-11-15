@@ -3,6 +3,9 @@ package com.example.tmcalculator.game;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
+/**
+ * A snapshot of the game, including number of different resources and building numbers.
+ */
 @Entity(tableName = "snapshot")
 public class GameSnapshot implements Cloneable {
     public int coin;

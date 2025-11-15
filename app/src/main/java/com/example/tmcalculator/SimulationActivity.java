@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+/**
+ * Activity for the simulation.
+ * This activity contains two fragments: {@link SnapshotFragment} and {@link InputFragment}.
+ */
 public class SimulationActivity extends AppCompatActivity {
 
     @Override

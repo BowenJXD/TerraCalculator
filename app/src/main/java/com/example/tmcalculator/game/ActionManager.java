@@ -1,10 +1,9 @@
 // ActionManager.java - REFACTORED
-package com.example.tmcalculator;
+package com.example.tmcalculator.game;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.tmcalculator.game.GameSnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -15,6 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Singleton that manages the localisation of actions, as well as abbreviation.
+ * Supports identifying the exact action given the action type and the snapshot.
+ * E.g. user inputs UPGRADE_SHIPPING in a snapshot that has shipping level of 2, it would identify
+ * the action as UPGRADE_SHIPPING_L2_L3 so the vp added would be 4.
+ */
 public class ActionManager {
     private static ActionManager instance;
     private final Context context;

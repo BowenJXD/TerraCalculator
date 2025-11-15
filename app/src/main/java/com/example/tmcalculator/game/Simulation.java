@@ -5,6 +5,10 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores a list of snapshots and actions, showing what the game would be like given the initial snapshot
+ * and a list of actions.
+ */
 public class Simulation implements Cloneable {
     private List<GameSnapshot> snapshots;
     private List<String> action;

@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tmcalculator.game.ActionManager;
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.game.MainGame;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,14 +27,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment showing a {@link SnapshotRecyclerViewAdapter} showing a list of snapshots and actions
+ * (a {@link com.example.tmcalculator.game.Simulation}).
+ * Listens to the change in the {@link #viewModel}, and pass the change to the {@link #adapter}.
  */
 public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAdapter.OnSnapshotActionListener {
     private SnapshotViewModel viewModel;
     private SnapshotRecyclerViewAdapter adapter;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-    private MainGame mainGame;
     private ActionManager actionManager;
 
     /**
@@ -52,7 +52,7 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_snapshot_list, container, false);
-        recyclerView = rootView.findViewById(R.id.list);
+        RecyclerView recyclerView = rootView.findViewById(R.id.list);
         adapter = new SnapshotRecyclerViewAdapter(this);
         adapter.setSnapshots(new ArrayList<>());
         adapter.setActions(new ArrayList<>());
@@ -65,9 +65,8 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
             adapter.notifyDataSetChanged();
         });
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        mainGame = MainGame.getInstance(getContext());
         actionManager = ActionManager.getInstance(getContext());
         return rootView;
     }

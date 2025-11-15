@@ -1,5 +1,9 @@
 package com.example.tmcalculator.game;
 
+/**
+ * Reference list of possible actions that can be performed in a game.
+ * Not necessary be used.
+ */
 public enum GameAction {
     NONE,
     CUSTOM,

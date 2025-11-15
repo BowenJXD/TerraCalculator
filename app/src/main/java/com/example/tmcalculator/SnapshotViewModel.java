@@ -13,6 +13,10 @@ import com.example.tmcalculator.game.Simulation;
 
 import java.util.List;
 
+/**
+ * Stores a simulation that could be listened to.
+ * Recalculates the snapshots in the simulation by calling {@link MainGame#simulateAll(Simulation, int)}}
+ */
 public class SnapshotViewModel extends AndroidViewModel {
     private final MutableLiveData<Simulation> simulation = new MutableLiveData<>();
     private MainGame mainGame;

@@ -2,7 +2,6 @@ package com.example.tmcalculator.game;
 
 import android.content.Context;
 
-import com.example.tmcalculator.ActionManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -13,20 +12,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Singleton, processes the main logic of terra mystica.
+ */
 public class MainGame {
+    /**
+     * A map showing what action should be matched to what string.
+     * Would load from{@link #BASE_CHANGE_MAP_PATH}
+     */
     public HashMap<String, GameDataChange> actionChangeMap;
     /**
-     * Game setting, additional changes, assume always be valid after change
+     * Game setting, additional changes, assume snapshot would always be valid after change
      */
     public GameSetting setting;
     /**
-     * Game character changes, overrides actionChangeMap
+     * Game character changes, overrides base actionChangeMap
      */
     public GameCharacter character;
+    /**
+     * A map storing all characters
+     */
     public HashMap<String, GameCharacter> allCharacters;
-
+    /**
+     * Context of the application
+     */
     private final Context context;
-
+    /**
+     * Path to the base change map
+     */
     public static final String BASE_CHANGE_MAP_PATH = "json/characters/base.json";
     private static MainGame instance;
 
@@ -71,6 +84,13 @@ public class MainGame {
     }
 
     // TODO: combine simulateChanges and simulateSnapshots together to consider shovel / shipping change.
+
+    /**
+     * Re-simulates all snapshots by the given action list and an index to start from.
+     * @param simulation
+     * @param startFrom
+     * @return
+     */
     public Simulation simulateAll(Simulation simulation, int startFrom) {
         Simulation result = simulateChanges(simulation, startFrom);
         result = simulateSnapshots(result, startFrom);
