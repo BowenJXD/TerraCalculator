@@ -84,7 +84,10 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             }
             if (itemPosition < snapshots.size() - 1) {
                 String action = actions.get(itemPosition);
-                String actionName = ActionManager.getInstance(context).getActionName(action);
+                String actionName = LocalisationManager.getInstance(context).getActionLocalisation(action);
+                itemHolder.btnAction.setText(actionName);
+            } else if (itemPosition == snapshots.size() - 1) {
+                String actionName = LocalisationManager.getInstance(context).getActionLocalisation(GameAction.NONE.name());
                 itemHolder.btnAction.setText(actionName);
             }
             itemHolder.tvIndex.setText(String.valueOf(itemPosition + 1));
@@ -101,7 +104,6 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
         }
-        // No data to bind for the header
     }
 
     @Override

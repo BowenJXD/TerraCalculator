@@ -1,0 +1,17 @@
+{
+  "UNKNOWN_ERROR": "未知错误",
+  "NO_COIN": "没有足够的金币",
+  "NO_WORKER": "没有足够的工人",
+  "NO_PRIEST": "没有足够的祭司",
+  "NO_VP": "没有足够的VP",
+  "NO_POWER2": "没有足够的2级魔力",
+  "NO_POWER3": "没有足够的3级魔力",
+  "NO_POWER1": "没有足够的1级魔力",
+  "TOO_MANY_DWELLING": "聚落数过多",
+  "TOO_MANY_TRADING_HOUSE": "贸易站数过多",
+  "TOO_MANY_TEMPLE": "寺庙数过多",
+  "TOO_MANY_STRONGHOLD": "要塞数过多",
+  "TOO_MANY_SANCTUARY": "圣殿数过多",
+  "MAX_LEVEL_REACHED": "等级已到上限",
+  "ILLEGAL_ACTION": "行动非法"
+}

@@ -1,4 +1,3 @@
-// ActionManager.java - REFACTORED
 package com.example.tmcalculator.game;
 
 import android.content.Context;
@@ -10,12 +9,12 @@ import com.google.gson.reflect.TypeToken;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * Singleton that manages the localisation of actions, as well as abbreviation.
+ * Singleton that manages the structure of the action menu.
  * Supports identifying the exact action given the action type and the snapshot.
  * E.g. user inputs UPGRADE_SHIPPING in a snapshot that has shipping level of 2, it would identify
  * the action as UPGRADE_SHIPPING_L2_L3 so the vp added would be 4.
@@ -24,8 +23,8 @@ public class ActionManager {
     private static ActionManager instance;
     private final Context context;
 
-    private Map<String, Map<String, String>> actionTree;
-    private Map<String, String> actionMap;
+    private Map<String, List<String>> actionTree;
+    private static final String ACTION_TREE_PATH = "json/localization/CHS/actionTree.json";
     private String[] prefixes = {
             "UPGRADE_SHOVEL",
             "UPGRADE_SHIPPING",
@@ -38,7 +37,7 @@ public class ActionManager {
 
     private ActionManager(Context context) {
         this.context = context.getApplicationContext();
-        loadActionMap();
+        loadActionTree();
     }
 
     public static synchronized ActionManager getInstance(Context context) {
@@ -48,125 +47,38 @@ public class ActionManager {
         return instance;
     }
 
-    public Map<String, Map<String, String>> getActionTree() {
+    public Map<String, List<String>> getActionTree() {
         return actionTree;
     }
 
-    public Map<String, String> getActionMap() {
-        return actionMap;
-    }
-
-    private void loadActionMap() {
+    private void loadActionTree() {
         if (actionTree != null) { // Don't reload if already loaded
             return;
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, Map<String, String>>>() {}.getType();
+        Type type = new TypeToken<Map<String, List<String>>>() {}.getType();
 
         try {
-            InputStream inputStream = context.getAssets().open("json/localization/CHS/action.json");
+            InputStream inputStream = context.getAssets().open(ACTION_TREE_PATH);
             InputStreamReader reader = new InputStreamReader(inputStream);
             actionTree = gson.fromJson(reader, type);
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, "Error loading actions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Error loading action tree", Toast.LENGTH_SHORT).show();
         }
-
-        actionMap = new HashMap<>();
-        if (actionTree != null) {
-            for (Map<String, String> category : actionTree.values()) {
-                actionMap.putAll(category);
-            }
-        }
-    }
-
-    public String getActionName(String actionId) {
-        return actionMap.get(actionId);
     }
 
     public String mapToActionBySS(String actionPrefix, GameSnapshot ss) {
         String action = actionPrefix;
         if (Objects.equals(actionPrefix, "TOWN_SHIPPING")) {
-            switch (ss.shipping) {
-                case 0:
-                    action = "TOWN_SHIPPING_L0_L1";
-                    break;
-                case 1:
-                    action = "TOWN_SHIPPING_L1_L2";
-                    break;
-                case 2:
-                    action = "TOWN_SHIPPING_L2_L3";
-                    break;
-                default:
-                    break;
-            }
+            action = String.format("%s_L%d_L%d", actionPrefix, ss.shipping, ss.shipping + 1);
         } else if (Objects.equals(actionPrefix, "UPGRADE_SHIPPING")) {
-            switch (ss.shipping) {
-                case 0:
-                    action = "UPGRADE_SHIPPING_L0_L1";
-                    break;
-                case 1:
-                    action = "UPGRADE_SHIPPING_L1_L2";
-                    break;
-                case 2:
-                    action = "UPGRADE_SHIPPING_L2_L3";
-                    break;
-                default:
-                    break;
-            }
+            action = String.format("%s_L%d_L%d", actionPrefix, ss.shipping, ss.shipping + 1);
         } else if (Objects.equals(actionPrefix, "UPGRADE_SHOVEL")) {
-            switch (ss.shovel) {
-                case 1:
-                    action = "UPGRADE_SHOVEL_L1_L2";
-                    break;
-                case 2:
-                    action = "UPGRADE_SHOVEL_L2_L3";
-                    break;
-                default:
-                    break;
-            }
-        } else if (Objects.equals(actionPrefix, "SHOVEL_ONCE")) {
-            switch (ss.shovel) {
-                case 1:
-                    action = "SHOVEL_ONCE_L1";
-                    break;
-                case 2:
-                    action = "SHOVEL_ONCE_L2";
-                    break;
-                case 3:
-                    action = "SHOVEL_ONCE_L3";
-                    break;
-                default:
-                    break;
-            }
-        } else if (Objects.equals(actionPrefix, "SHOVEL_TWICE")) {
-            switch (ss.shovel) {
-                case 1:
-                    action = "SHOVEL_TWICE_L1";
-                    break;
-                case 2:
-                    action = "SHOVEL_TWICE_L2";
-                    break;
-                case 3:
-                    action = "SHOVEL_TWICE_L3";
-                    break;
-                default:
-                    break;
-            }
-        } else if (Objects.equals(actionPrefix, "SHOVEL_THIRCE")) {
-            switch (ss.shovel) {
-                case 1:
-                    action = "SHOVEL_THIRCE_L1";
-                    break;
-                case 2:
-                    action = "SHOVEL_THIRCE_L2";
-                    break;
-                case 3:
-                    action = "SHOVEL_THIRCE_L3";
-                    break;
-                default:
-            }
+            action = String.format("%s_L%d_L%d", actionPrefix, ss.shovel, ss.shovel + 1);
+        } else if (actionPrefix.startsWith("SHOVEL_")) {
+            action = String.format("%s_L%d",actionPrefix, ss.shovel);
         }
 
         return action;

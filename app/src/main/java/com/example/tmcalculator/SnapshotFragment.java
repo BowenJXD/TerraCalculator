@@ -19,11 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tmcalculator.game.ActionManager;
 import com.example.tmcalculator.game.GameSnapshot;
-import com.example.tmcalculator.game.MainGame;
+import com.example.tmcalculator.game.SimResult;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +36,7 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
     private SnapshotViewModel viewModel;
     private SnapshotRecyclerViewAdapter adapter;
     private ActionManager actionManager;
+    private LocalisationManager localisationManager;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,18 +65,24 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
             adapter.setSnapshots(simulation.getSnapshots());
             adapter.setActions(simulation.getActions());
             adapter.notifyDataSetChanged();
+            SimResult simResult = simulation.getSimResult();
+            if (simResult != null && simResult != SimResult.SUCCESS) {
+                String resultText = localisationManager.getWarningLocalisation(simResult.toString());
+                Snackbar.make(rootView, resultText, Snackbar.LENGTH_LONG).show();
+            }
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         actionManager = ActionManager.getInstance(getContext());
+        localisationManager = LocalisationManager.getInstance(getContext());
         return rootView;
     }
 
     @Override
     public void onAction(GameSnapshot ss, View anchor, Button btnAction, int position) {
-        if (actionManager == null) {
-            Toast.makeText(getContext(), "Actions not loaded", Toast.LENGTH_SHORT).show();
+        if (actionManager.getActionTree() == null || localisationManager == null) {
+            Toast.makeText(getContext(), "Data not loaded", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -83,11 +91,13 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
         Map<Integer, String> idToKeyMap = new HashMap<>();
         int idCounter = 1;
 
-        for (Map.Entry<String, Map<String, String>> category : actionManager.getActionTree().entrySet()) {
-            SubMenu subMenu = menu.addSubMenu(category.getKey());
-            for (Map.Entry<String, String> action : category.getValue().entrySet()) {
-                idToKeyMap.put(idCounter, action.getKey());
-                subMenu.add(Menu.NONE, idCounter, Menu.NONE, action.getValue());
+        for (Map.Entry<String, List<String>> category : actionManager.getActionTree().entrySet()) {
+            String categoryName = localisationManager.getActionLocalisation(category.getKey());
+            SubMenu subMenu = menu.addSubMenu(categoryName);
+            for (String actionKey : category.getValue()) {
+                idToKeyMap.put(idCounter, actionKey);
+                String actionName = localisationManager.getActionLocalisation(actionKey);
+                subMenu.add(Menu.NONE, idCounter, Menu.NONE, actionName);
                 idCounter++;
             }
         }
@@ -95,14 +105,7 @@ public class SnapshotFragment extends Fragment implements SnapshotRecyclerViewAd
         popupMenu.setOnMenuItemClickListener(item -> {
             String actionKey = idToKeyMap.get(item.getItemId());
             if (actionKey == null) return true;
-            String textToDisplay = actionManager.getActionName(actionKey);
-            if (textToDisplay == null) return true;
-            boolean succeeded = viewModel.setAction(actionKey, position);
-            if (succeeded) {
-                btnAction.setText(textToDisplay);
-            } else {
-                Snackbar.make(anchor, "Calculation Failed", Snackbar.LENGTH_SHORT).show();
-            }
+            SimResult simResult = viewModel.setAction(actionKey, position);
             return true;
         });
 

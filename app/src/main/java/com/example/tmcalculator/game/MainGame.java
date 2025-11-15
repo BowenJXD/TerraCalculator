@@ -41,6 +41,9 @@ public class MainGame {
      * Path to the base change map
      */
     public static final String BASE_CHANGE_MAP_PATH = "json/characters/base.json";
+    /**
+     * Singleton instance
+     */
     private static MainGame instance;
 
     private MainGame(Context context) {
@@ -92,12 +95,42 @@ public class MainGame {
      * @return
      */
     public Simulation simulateAll(Simulation simulation, int startFrom) {
-        Simulation result = simulateChanges(simulation, startFrom);
-        result = simulateSnapshots(result, startFrom);
+        Simulation result = simulation.clone();
+        List<GameDataChange> changes = result.getChanges();
+        List<String> actions = result.getActions();
+        List<GameSnapshot> snapshots = result.getSnapshots();
+
+        for (int i = startFrom; i < actions.size(); i++) {
+            String action = actions.get(i);
+            GameSnapshot ss = snapshots.get(i).clone();
+            GameDataChange change = getChange(action, ss);
+            if (change != null) {
+                if (changes.size() <= i) changes.add(change);
+                else changes.set(i, change);
+            } else if (Objects.equals(action, GameAction.CUSTOM.name())) {
+                change = changes.get(i);
+            } else {
+                result.setSimResult(checkReason(action));
+                result.cutTo(i);
+                break;
+            }
+
+            applyChange(ss, change);
+            convert(ss);
+            if (snapshots.size() <= i + 1) snapshots.add(ss);
+            else snapshots.set(i + 1, ss);
+            SimResult simResult = checkValid(ss);
+            result.setSimResult(simResult);
+            if (simResult != SimResult.SUCCESS) {
+                result.cutTo(i);
+                break;
+            }
+        }
+
         return result;
     }
 
-    public Simulation simulateChanges(Simulation simulation, int startFrom) {
+    /*public Simulation simulateChanges(Simulation simulation, int startFrom) {
         Simulation result = simulation.clone();
         List<GameDataChange> changes = result.getChanges();
         List<String> actions = result.getActions();
@@ -155,7 +188,7 @@ public class MainGame {
             applyChange(result, settingChange);
         }
         return result;
-    }
+    }*/
 
     public GameDataChange getChange(String action, GameSnapshot ss) {
         GameDataChange change = actionChangeMap.get(action);
@@ -367,13 +400,54 @@ public class MainGame {
         }
     }
 
-    public boolean checkValid(GameSnapshot ss) {
-        boolean result = true;
-        if (ss.coin < 0 || ss.worker < 0 || ss.priest < 0 || ss.vp < 0 || ss.power3 < 0 || ss.power2 < 0 || ss.power1 < 0) {
-            result = false;
+    public SimResult checkValid(GameSnapshot ss) {
+        SimResult result = SimResult.SUCCESS;
+        if (ss.coin < 0){
+            result =  SimResult.NO_COIN;
         }
-        if (ss.dwelling > 8 || ss.tradingHouse > 4 || ss.temple > 3 || ss.stronghold > 1 || ss.sanctuary > 1) {
-            result = false;
+        if (ss.worker < 0){
+            result =  SimResult.NO_WORKER;
+        }
+        if (ss.priest < 0){
+            result =  SimResult.NO_PRIEST;
+        }
+        if (ss.vp < 0){
+            result =  SimResult.NO_VP;
+        }
+        if (ss.power1 < 0){
+            result =  SimResult.NO_POWER1;
+        }
+        if (ss.power2 < 0){
+            result =  SimResult.NO_POWER2;
+        }
+        if (ss.power3 < 0){
+            result =  SimResult.NO_POWER3;
+        }
+        if (ss.dwelling > 8){
+            result =  SimResult.TOO_MANY_DWELLING;
+        }
+        if (ss.tradingHouse > 4){
+            result =  SimResult.TOO_MANY_TRADING_HOUSE;
+        }
+        if (ss.temple > 3){
+            result =  SimResult.TOO_MANY_TEMPLE;
+        }
+        if (ss.stronghold > 1){
+            result =  SimResult.TOO_MANY_STRONGHOLD;
+        }
+        if (ss.sanctuary > 1){
+            result =  SimResult.TOO_MANY_SANCTUARY;
+        }
+
+        return result;
+    }
+
+    public SimResult checkReason(String action) {
+        SimResult result = SimResult.ILLEGAL_ACTION;
+        if (action.startsWith("UPGRADE_SHOVEL") || action.startsWith("UPGRADE_SHIPPING")) {
+            result = SimResult.MAX_LEVEL_REACHED;
+        } else if (action.equals(GameAction.NONE.toString())) {
+            result = SimResult.SUCCESS;
         }
         return result;
     }

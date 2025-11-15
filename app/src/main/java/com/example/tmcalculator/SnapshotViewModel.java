@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.game.MainGame;
+import com.example.tmcalculator.game.SimResult;
 import com.example.tmcalculator.game.Simulation;
 
 import java.util.List;
@@ -50,17 +51,17 @@ public class SnapshotViewModel extends AndroidViewModel {
             currentList.set(index, snapshot);
         }
         sim.setSnapshots(currentList);
-        Simulation result = mainGame.simulateSnapshots(sim, index);
+        Simulation result = mainGame.simulateAll(sim, index);
         if (result == null) return false;
         this.simulation.setValue(result);
         return true;
     }
 
-    public boolean setAction(String action, int index) {
+    public SimResult setAction(String action, int index) {
         Simulation sim = this.simulation.getValue();
-        if (sim == null) return false;
+        if (sim == null) return SimResult.UNKNOWN_ERROR;
         List<String> currentList = sim.getActions();
-        if (currentList == null || currentList.size() < index) return false;
+        if (currentList == null || currentList.size() < index) return SimResult.UNKNOWN_ERROR;
         if (index == currentList.size()) {
             currentList.add(action);
         } else {
@@ -68,9 +69,9 @@ public class SnapshotViewModel extends AndroidViewModel {
         }
         sim.setActions(currentList);
         Simulation result = mainGame.simulateAll(sim, index);
-        if (result == null) return false;
+        if (result == null) return SimResult.UNKNOWN_ERROR;
         this.simulation.setValue(result);
-        if (result.getLength() < sim.getLength()) return false;
-        return true;
+        if (result.getLength() < sim.getLength()) return SimResult.UNKNOWN_ERROR;
+        return result.getSimResult();
     }
 }
