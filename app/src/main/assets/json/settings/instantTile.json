@@ -12,10 +12,6 @@
       "vp": 3
     }
   },
-  "FAV_WIND_1": {
-    "tradingHouse": [1, 2, 3, 4],
-    "vp": [2, 3, 3, 4]
-  },
   "SCO_DVP": {
     "BUILD_DWELLING": {
       "vp": 2
@@ -45,29 +41,6 @@
   "SCO_TOWNVP": {
     "TOWN_*": {
       "vp": 5
-    }
-  },
-  "BON_DVP": {
-    "dwelling": {
-      "vp": 1
-    }
-  },
-  "BON_THVP": {
-    "tradingHouse": {
-      "vp": 2
-    }
-  },
-  "BON_SHIPVP": {
-    "shipping": {
-      "vp": 3
-    }
-  },
-  "BON_SVP": {
-    "stronghold": {
-      "vp": 4
-    },
-    "sanctuary": {
-      "vp": 4
     }
   }
 }

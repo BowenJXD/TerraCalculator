@@ -13,7 +13,6 @@ public class Simulation implements Cloneable {
     private List<GameSnapshot> snapshots;
     private List<String> action;
     private List<GameDataChange> change;
-    private GameSetting setting;
     private GameCharacter character;
     private SimResult simResult;
 
@@ -24,11 +23,10 @@ public class Simulation implements Cloneable {
         simResult = SimResult.SUCCESS;
     }
 
-    public Simulation(GameSetting setting, GameCharacter character) {
+    public Simulation(GameCharacter character) {
         snapshots = new ArrayList<>();
         action = new ArrayList<>();
         change = new ArrayList<>();
-        this.setting = setting;
         this.character = character;
     }
 
@@ -56,14 +54,6 @@ public class Simulation implements Cloneable {
         return change;
     }
 
-    public GameSetting getSetting() {
-        return setting;
-    }
-
-    public GameCharacter getCharacter() {
-        return character;
-    }
-
     public SimResult getSimResult() {
         return simResult;
     }
@@ -78,10 +68,6 @@ public class Simulation implements Cloneable {
 
     public void setChanges(List<GameDataChange> change) {
         this.change = change;
-    }
-
-    public void setSetting(GameSetting setting) {
-        this.setting = setting;
     }
 
     public void setCharacter(GameCharacter character) {
@@ -109,7 +95,6 @@ public class Simulation implements Cloneable {
         clone.snapshots = new ArrayList<>(snapshots);
         clone.action = new ArrayList<>(action);
         clone.change = new ArrayList<>(change);
-        clone.setting = setting;
         clone.character = character;
         clone.simResult = simResult;
         return clone;

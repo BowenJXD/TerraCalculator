@@ -3,6 +3,7 @@ package com.example.tmcalculator;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tmcalculator.game.GameAction;
+import com.example.tmcalculator.game.GameDataChange;
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.databinding.ItemSnapshotBinding;
 import com.example.tmcalculator.databinding.ItemSnapshotHeaderBinding;
+import com.example.tmcalculator.game.MainGame;
 import com.example.tmcalculator.util.LocalisationManager;
 
 import java.util.List;
@@ -73,6 +76,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
+    @SuppressLint("DefaultLocale")
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder itemHolder = (ItemViewHolder) holder;
@@ -91,7 +95,12 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 itemHolder.btnAction.setText(actionName);
             }
             itemHolder.tvIndex.setText(String.valueOf(itemPosition + 1));
-            itemHolder.tvVp.setText(String.valueOf(ss.vp));
+
+            GameDataChange endingTileChange = MainGame.getInstance().getEndingTileChange(ss);
+            int endingVp = endingTileChange == null ? 0 : endingTileChange.vp;
+            String vpStr = endingVp > 0 ? String.format("%d+%d", ss.vp, endingVp) : String.valueOf(ss.vp);
+            itemHolder.tvVp.setText(vpStr);
+
             itemHolder.tvCoin.setText(String.valueOf(ss.coin));
             itemHolder.tvWorker.setText(String.valueOf(ss.worker));
             itemHolder.tvPriest.setText(String.valueOf(ss.priest));

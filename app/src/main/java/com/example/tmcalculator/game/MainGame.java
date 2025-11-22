@@ -2,6 +2,7 @@ package com.example.tmcalculator.game;
 
 import android.content.Context;
 
+import com.example.tmcalculator.util.ContextManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,17 +46,19 @@ public class MainGame {
      * Singleton instance
      */
     private static MainGame instance;
+    private TileManager tileManager;
 
-    private MainGame(Context context) {
-        this.context = context.getApplicationContext();
+    private MainGame() {
+        this.context = ContextManager.getContext();
         setting = new GameSetting();
+        tileManager = TileManager.getInstance();
         loadBaseChangeMap();
         loadAllCharacters();
     }
 
-    public static synchronized MainGame getInstance(Context context) {
+    public static synchronized MainGame getInstance() {
         if (instance == null) {
-            instance = new MainGame(context);
+            instance = new MainGame();
         }
         return instance;
     }
@@ -115,6 +118,7 @@ public class MainGame {
                 break;
             }
 
+            change = addChange(change, getInstantTileChange(action, ss));
             applyChange(ss, change);
             convert(ss);
             if (snapshots.size() <= i + 1) snapshots.add(ss);
@@ -196,11 +200,6 @@ public class MainGame {
             String fullName = ActionManager.getInstance().mapToActionBySS(action, ss);
             change = actionChangeMap.get(fullName);
         }
-        if (change == null) return null;
-        GameDataChange settingChange = setting.getChange(action);
-        if (settingChange != null) {
-            change = addChange(change, settingChange);
-        }
         return change;
     }
 
@@ -226,6 +225,30 @@ public class MainGame {
         } else {
             overflow = losePower(ss, -change.power);
         }
+    }
+
+    public GameDataChange getInstantTileChange(String action, GameSnapshot ss) {
+        GameDataChange result = new GameDataChange();
+        if (ss.tiles == null || ss.tiles.isEmpty()) return null;
+        for (int i = 0; i < ss.tiles.size(); i++) {
+            GameDataChange actionChange = tileManager.getInstantTileChange(ss.tiles.get(i), action);
+            if (actionChange != null) {
+                result = addChange(result, actionChange);
+            }
+        }
+        return result;
+    }
+
+    public GameDataChange getEndingTileChange(GameSnapshot ss) {
+        GameDataChange result = new GameDataChange();
+        if (ss.tiles == null || ss.tiles.isEmpty()) return null;
+        for (int i = 0; i < ss.tiles.size(); i++) {
+            GameDataChange endingTileChange = tileManager.getEndingTileChange(ss.tiles.get(i), ss);
+            if (endingTileChange != null) {
+                result = addChange(result, endingTileChange);
+            }
+        }
+        return result;
     }
 
     public GameDataChange addChange(GameDataChange change1, GameDataChange change2) {

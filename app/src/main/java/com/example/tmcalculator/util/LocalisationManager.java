@@ -8,9 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -25,7 +23,7 @@ public class LocalisationManager {
     private static final String WARNING_PATH = "json/localisation/CHS/warning.json";
     private static final String ACTION_PATH = "json/localisation/CHS/action.json";
     private static final String CHARACTER_PATH = "json/localisation/CHS/character.json";
-    private static final String SETTING_PATH = "json/localisation/CHS/setting.json";
+    private static final String TILE_PATH = "json/localisation/CHS/tile.json";
     private Context context;
     private static LocalisationManager instance;
 
@@ -34,18 +32,18 @@ public class LocalisationManager {
         loadLocalisation(WARNING_PATH, map -> warnings = map);
         loadLocalisation(ACTION_PATH, map -> action = map);
         loadLocalisation(CHARACTER_PATH, map -> character = map);
-        loadLocalisation(SETTING_PATH, map -> {
+        loadLocalisation(TILE_PATH, map -> {
             bonus = new HashMap<>();
             favor = new HashMap<>();
             scoring = new HashMap<>();
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
-                if (value.startsWith("BON")) {
+                if (key.startsWith("BON")) {
                     bonus.put(key, value);
-                } else if (value.startsWith("FAV")) {
+                } else if (key.startsWith("FAV")) {
                     favor.put(key, value);
-                } else if (value.startsWith("SCO")) {
+                } else if (key.startsWith("SCO")) {
                     scoring.put(key, value);
                 }
             }
@@ -101,18 +99,15 @@ public class LocalisationManager {
         return scoring.get(key);
     }
 
-    public List<String> getBonusList() {
-        if (bonus == null) return null;
-        return new ArrayList<>(bonus.values());
+    public Map<String, String> getBonusMap() {
+        return bonus;
     }
 
-    public List<String> getFavorList() {
-        if (favor == null) return null;
-        return new ArrayList<>(favor.values());
+    public Map<String, String> getFavorMap() {
+        return favor;
     }
 
-    public List<String> getScoringList() {
-        if (scoring == null) return null;
-        return new ArrayList<>(scoring.values());
+    public Map<String, String> getScoringMap() {
+        return scoring;
     }
 }

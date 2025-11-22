@@ -25,7 +25,7 @@ public class SnapshotViewModel extends AndroidViewModel {
     public SnapshotViewModel(@NonNull Application application) {
         super(application);
         simulation.setValue(new Simulation());
-        mainGame = MainGame.getInstance(application.getBaseContext());
+        mainGame = MainGame.getInstance();
     }
 
     public LiveData<Simulation> getSimulation() {

@@ -10,10 +10,6 @@ import java.util.List;
  */
 public class GameSetting {
     /**
-     * These additional changes assumes to have no impact to the validity of a snapshot.
-     */
-    public HashMap<String, GameDataChange> actionChangeMap = new HashMap<>();
-    /**
      * May allow user to change conversion priority in the future.
      */
     public List<GameAction> conversionPriority = Arrays.asList(
@@ -26,13 +22,4 @@ public class GameSetting {
             // GameAction.CONVERT_POWER_TO_COIN,
             GameAction.CONVERT_PRIEST_TO_COIN
             );
-
-
-    public GameDataChange getChange(String action) {
-        return actionChangeMap.get(action);
-    }
-
-    public void setChange(String action, GameDataChange change) {
-        actionChangeMap.put(action, change);
-    }
 }

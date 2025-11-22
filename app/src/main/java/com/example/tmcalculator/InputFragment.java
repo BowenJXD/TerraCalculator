@@ -3,6 +3,7 @@ package com.example.tmcalculator;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,7 +17,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tmcalculator.databinding.FragmentBottomSheetInputBinding;
 import com.example.tmcalculator.game.GameSnapshot;
+import com.example.tmcalculator.game.TileManager;
 import com.example.tmcalculator.util.LocalisationManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Takes input from user and sets it as a snapshot (usually the initial snapshot) by passing it to {@link SnapshotViewModel}
@@ -32,7 +39,10 @@ public class InputFragment extends Fragment {
     private boolean hasStronghold = false;
     private int shovelLevel = 1;
     private int shippingLevel = 0;
-    private boolean[] selectedFavTiles;
+
+    private List<String> favTiles = new ArrayList<>();
+    private String bonTile;
+    private String scoTile;
     private LocalisationManager localisationManager;
 
     @Nullable
@@ -51,6 +61,9 @@ public class InputFragment extends Fragment {
 
         setupRatingBars();
         setupSliders();
+        setupBonMenu();
+        setupFavMenu();
+        setupScoMenu();
 
         binding.btnStronghold.setOnClickListener(v -> hasStronghold = !hasStronghold);
         binding.btnSanctuary.setOnClickListener(v -> hasSanctuary = !hasSanctuary);
@@ -71,6 +84,9 @@ public class InputFragment extends Fragment {
             ss.temple = templeRating;
             ss.stronghold = hasStronghold ? 1 : 0;
             ss.sanctuary = hasSanctuary ? 1 : 0;
+            ss.tiles.addAll(favTiles);
+            ss.tiles.add(bonTile);
+            ss.tiles.add(scoTile);
             viewModel.setSnapshot(ss, 0);
         });
     }
@@ -188,25 +204,69 @@ public class InputFragment extends Fragment {
 
     private void setupFavMenu() {
         binding.btnFavor.setOnClickListener(v -> {
-            String[] favorList = localisationManager.getFavorList().toArray(new String[0]);
-            selectedFavTiles = new boolean[favorList.length];
-            AlertDialog alertDialog = new AlertDialog.Builder((requireContext()))
-                    .setMultiChoiceItems(favorList, selectedFavTiles, (dialog, which, isChecked) -> {
-                        // TODO
-                    }).setPositiveButton("OK", (dialog, which) -> {
-                        selectedFavTiles = new boolean[favorList.length];
+            String[] favorKeys = TileManager.getInstance().getFavorTiles().toArray(new String[0]);
+            String[] favorValues = Arrays.stream(favorKeys)
+                    .map(key -> {
+                        String localized = localisationManager.getFavorLocalisation(key);
+                        return localized != null ? localized : key;
+                    })
+                    .toArray(String[]::new);
+            boolean[] checkedItems = new boolean[favorKeys.length];
+            for(int i = 0; i < favorKeys.length; i++) {
+                checkedItems[i] = favTiles.contains(favorKeys[i]);
+            }
 
-                    }).setNegativeButton("Cancel", (dialog, which) -> {
-
-                    }).create();
-            alertDialog.show();
+            new AlertDialog.Builder(requireContext())
+                    .setMultiChoiceItems(favorValues, checkedItems, (dialog, which, isChecked) -> {
+                        checkedItems[which] = isChecked;
+                    })
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        favTiles.clear();
+                        for (int i = 0; i < favorKeys.length; i++) {
+                            if (checkedItems[i]) {
+                                favTiles.add(favorKeys[i]);
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .create()
+                    .show();
         });
     }
 
     private void setupBonMenu() {
         binding.btnBonus.setOnClickListener(v -> {
+            List<String> bonKeys = TileManager.getInstance().getBonusTiles();
             PopupMenu popupMenu = new PopupMenu(requireContext(), binding.btnBonus);
+            Menu menu = popupMenu.getMenu();
+            for (int i = 0; i < bonKeys.size(); i++) {
+                menu.add(Menu.NONE, i, i, localisationManager.getBonusLocalisation(bonKeys.get(i)));
+            }
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int i = item.getItemId();
+                bonTile = bonKeys.get(i);
+                binding.btnBonus.setText(item.getTitle());
+                return true;
+            });
+            popupMenu.show();
+        });
+    }
 
+    private void setupScoMenu() {
+        binding.btnScoring.setOnClickListener(v -> {
+            List<String> scoKeys = TileManager.getInstance().getScoringTiles();
+            PopupMenu popupMenu = new PopupMenu(requireContext(), binding.btnScoring);
+            Menu menu = popupMenu.getMenu();
+            for (int i = 0; i < scoKeys.size(); i++) {
+                menu.add(Menu.NONE, i, i, localisationManager.getScoringLocalisation(scoKeys.get(i)));
+            }
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int i = item.getItemId();
+                scoTile = scoKeys.get(i);
+                binding.btnScoring.setText(item.getTitle());
+                return true;
+            });
+            popupMenu.show();
         });
     }
 
