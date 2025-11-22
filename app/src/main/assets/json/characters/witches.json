@@ -1,0 +1,8 @@
+{
+  "STRONGHOLD_ABILITY": {
+    "dwelling": 1
+  },
+  "TOWN_*": {
+    "vp": 5
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "CHARACTER_ABILITY_L1": {
+    "worker": -2,
+    "vp": 4
+  },
+  "CHARACTER_ABILITY_L2": {
+    "worker": -1,
+    "vp": 4
+  }
+}

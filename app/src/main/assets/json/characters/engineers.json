@@ -1,0 +1,40 @@
+{
+  "BUILD_DWELLING": {
+    "worker": -1,
+    "coin": -1,
+    "dwelling": 1
+  },
+  "BUILD_TRADING_HOUSE_UNCONNECTED": {
+    "worker": -1,
+    "coin": -4,
+    "dwelling": -1,
+    "tradingHouse": 1
+  },
+  "BUILD_TRADING_HOUSE_CONNECTED": {
+    "worker": -1,
+    "coin": -2,
+    "dwelling": -1,
+    "tradingHouse": 1
+  },
+  "BUILD_TEMPLE": {
+    "worker": -1,
+    "coin": -4,
+    "tradingHouse": -1,
+    "temple": 1
+  },
+  "BUILD_STRONGHOLD": {
+    "worker": -3,
+    "coin": -6,
+    "tradingHouse": -1,
+    "stronghold": 1
+  },
+  "BUILD_SANCTUARY": {
+    "worker": -3,
+    "coin": -6,
+    "temple": -1,
+    "sanctuary": 1
+  },
+  "BUILD_BRIDGE": {
+    "worker": -2
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -8,
+    "tradingHouse": -1,
+    "stronghold": 1
+  },
+  "STRONGHOLD_ABILITY": {  }
+}

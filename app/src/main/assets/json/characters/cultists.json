@@ -1,0 +1,15 @@
+{
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -8,
+    "tradingHouse": -1,
+    "stronghold": 1,
+    "vp": 7
+  },
+  "BUILD_SANCTUARY": {
+    "worker": -4,
+    "coin": -8,
+    "temple": -1,
+    "sanctuary": 1
+  }
+}

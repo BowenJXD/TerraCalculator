@@ -1,0 +1,19 @@
+{
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -6,
+    "tradingHouse": -1,
+    "stronghold": 1,
+    "power": 12
+  },
+  "BUILD_SANCTUARY": {
+    "worker": -4,
+    "coin": -6,
+    "temple": -1,
+    "sanctuary": 1
+  },
+  "CONVERT_VP_TO_COIN": {
+    "vp": -1,
+    "coin": 1
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -6,
+    "tradingHouse": -1,
+    "stronghold": 1
+  },
+  "BUILD_SANCTUARY": {
+    "worker": -4,
+    "coin": -6,
+    "temple": -1,
+    "sanctuary": 1
+  },
+  "UPGRADE_SHIPPING_L0_L1": null,
+  "UPGRADE_SHIPPING_L1_L2": {
+    "coin": -4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 2
+  },
+  "UPGRADE_SHIPPING_L2_L3": {
+    "coin": -4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 3
+  },
+  "UPGRADE_SHIPPING_L3_L4": {
+    "coin": -4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 4
+  },
+  "UPGRADE_SHIPPING_L4_L5": {
+    "coin": -4,
+    "priest": -1,
+    "shipping": 1,
+    "vp": 5
+  }
+}

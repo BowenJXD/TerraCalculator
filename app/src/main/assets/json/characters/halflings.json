@@ -1,0 +1,31 @@
+{
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -8,
+    "tradingHouse": -1,
+    "stronghold": 1
+  },
+  "UPGRADE_SHOVEL_L1_L2": {
+    "coin": -1,
+    "worker": -2,
+    "priest": -1,
+    "shovel": 1,
+    "vp": 6
+  },
+  "UPGRADE_SHOVEL_L2_L3": {
+    "coin": -1,
+    "worker": -2,
+    "priest": -1,
+    "shovel": 1,
+    "vp": 6
+  },
+  "SHOVEL_ONCE_*": {
+    "vp": 1
+  },
+  "SHOVEL_TWICE_*": {
+    "vp": 2
+  },
+  "SHOVEL_THRICE_*": {
+    "vp": 3
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "BUILD_STRONGHOLD": {
+    "worker": -4,
+    "coin": -10,
+    "tradingHouse": -1,
+    "stronghold": 1
+  },
+  "CHARACTER_ABILITY": {
+    "priest": -1,
+    "vp": 4
+  },
+  "UPGRADE_SHOVEL_L2_L3": null
+}

@@ -1,0 +1,8 @@
+{
+  "BUILD_SANCTUARY": {
+    "worker": -4,
+    "coin": -8,
+    "temple": -1,
+    "sanctuary": 1
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "BUILD_SANCTUARY": {
+    "worker": -4,
+    "coin": -10,
+    "temple": -1,
+    "sanctuary": 1
+  },
+  "STRONGHOLD_ABILITY": {
+    "worker": -1,
+    "priest": 1
+  },
+  "SHOVEL_ONCE_L1": {
+    "priest": -1,
+    "vp": 2
+  },
+  "SHOVEL_TWICE_L1": {
+    "priest": -2,
+    "vp": 4
+  },
+  "SHOVEL_THRICE_L1": {
+    "priest": -3,
+    "vp": 6
+  },
+  "SHOVEL_ONCE_L2": null,
+  "SHOVEL_TWICE_L2": null,
+  "SHOVEL_THRICE_L2": null,
+  "SHOVEL_ONCE_L3": null,
+  "SHOVEL_TWICE_L3": null,
+  "SHOVEL_THRICE_L3": null,
+  "UPGRADE_SHOVEL_L1_L2": null,
+  "UPGRADE_SHOVEL_L2_L3": null
+}
