@@ -17,13 +17,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tmcalculator.databinding.FragmentBottomSheetInputBinding;
 import com.example.tmcalculator.game.GameSnapshot;
-import com.example.tmcalculator.game.TileManager;
+import com.example.tmcalculator.game.MainGame;
+import com.example.tmcalculator.util.CharacterManager;
+import com.example.tmcalculator.util.TileManager;
 import com.example.tmcalculator.util.LocalisationManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Takes input from user and sets it as a snapshot (usually the initial snapshot) by passing it to {@link SnapshotViewModel}
@@ -40,6 +41,7 @@ public class InputFragment extends Fragment {
     private int shovelLevel = 1;
     private int shippingLevel = 0;
 
+    private String selectedChar;
     private List<String> favTiles = new ArrayList<>();
     private String bonTile;
     private String scoTile;
@@ -61,6 +63,7 @@ public class InputFragment extends Fragment {
 
         setupRatingBars();
         setupSliders();
+        setupCharMenu();
         setupBonMenu();
         setupFavMenu();
         setupScoMenu();
@@ -87,6 +90,7 @@ public class InputFragment extends Fragment {
             ss.tiles.addAll(favTiles);
             ss.tiles.add(bonTile);
             ss.tiles.add(scoTile);
+            MainGame.getInstance().applyCharacterChanges(selectedChar);
             viewModel.setSnapshot(ss, 0);
         });
     }
@@ -202,6 +206,24 @@ public class InputFragment extends Fragment {
         }
     }
 
+    private void setupCharMenu() {
+        binding.btnSelectChar.setOnClickListener(v -> {
+            List<String> charKeys = CharacterManager.getInstance().getCharacterNames();
+            PopupMenu popupMenu = new PopupMenu(requireContext(), binding.btnSelectChar);
+            Menu menu = popupMenu.getMenu();
+            for (int i = 0; i < charKeys.size(); i++) {
+                menu.add(Menu.NONE, i, i, localisationManager.getCharacterLocalisation(charKeys.get(i)));
+            }
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int i = item.getItemId();
+                selectedChar = charKeys.get(i);
+                binding.btnSelectChar.setText(item.getTitle());
+                return true;
+            });
+            popupMenu.show();
+        });
+    }
+
     private void setupFavMenu() {
         binding.btnFavor.setOnClickListener(v -> {
             String[] favorKeys = TileManager.getInstance().getFavorTiles().toArray(new String[0]);
@@ -212,7 +234,7 @@ public class InputFragment extends Fragment {
                     })
                     .toArray(String[]::new);
             boolean[] checkedItems = new boolean[favorKeys.length];
-            for(int i = 0; i < favorKeys.length; i++) {
+            for (int i = 0; i < favorKeys.length; i++) {
                 checkedItems[i] = favTiles.contains(favorKeys[i]);
             }
 

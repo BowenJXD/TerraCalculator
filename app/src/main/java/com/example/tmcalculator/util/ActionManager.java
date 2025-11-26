@@ -1,9 +1,9 @@
-package com.example.tmcalculator.game;
+package com.example.tmcalculator.util;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.tmcalculator.util.ContextManager;
+import com.example.tmcalculator.game.GameSnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -2,7 +2,10 @@ package com.example.tmcalculator.game;
 
 import android.content.Context;
 
+import com.example.tmcalculator.util.ActionManager;
+import com.example.tmcalculator.util.CharacterManager;
 import com.example.tmcalculator.util.ContextManager;
+import com.example.tmcalculator.util.TileManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,10 +34,6 @@ public class MainGame {
      */
     public GameCharacter character;
     /**
-     * A map storing all characters
-     */
-    public HashMap<String, GameCharacter> allCharacters;
-    /**
      * Context of the application
      */
     private final Context context;
@@ -53,7 +52,6 @@ public class MainGame {
         setting = new GameSetting();
         tileManager = TileManager.getInstance();
         loadBaseChangeMap();
-        loadAllCharacters();
     }
 
     public static synchronized MainGame getInstance() {
@@ -76,17 +74,8 @@ public class MainGame {
         }
     }
 
-    public void loadAllCharacters() {
-        // TODO: load all characters from json files
-    }
-
     public void applyCharacterChanges(String name) {
-        character = allCharacters.get(name);
-        if (character == null) {
-            return;
-        }
-        actionChangeMap.putAll(character.actionChangeMap);
-        actionChangeMap.values().removeIf(Objects::isNull);
+        character = CharacterManager.getInstance().getCharacter(name);
     }
 
     // TODO: combine simulateChanges and simulateSnapshots together to consider shovel / shipping change.
@@ -118,7 +107,7 @@ public class MainGame {
                 break;
             }
 
-            change = addChange(change, getInstantTileChange(action, ss));
+            change.addChange(getInstantTileChange(action, ss));
             applyChange(ss, change);
             convert(ss);
             if (snapshots.size() <= i + 1) snapshots.add(ss);
@@ -197,8 +186,14 @@ public class MainGame {
     public GameDataChange getChange(String action, GameSnapshot ss) {
         GameDataChange change = actionChangeMap.get(action);
         if (change == null) {
-            String fullName = ActionManager.getInstance().mapToActionBySS(action, ss);
-            change = actionChangeMap.get(fullName);
+            action = ActionManager.getInstance().mapToActionBySS(action, ss);
+            change = actionChangeMap.get(action);
+        }
+        if (character != null) {
+            GameDataChange charChange = character.addChange(action, change);
+            if (charChange != null) {
+                change = charChange;
+            }
         }
         return change;
     }
@@ -233,7 +228,7 @@ public class MainGame {
         for (int i = 0; i < ss.tiles.size(); i++) {
             GameDataChange actionChange = tileManager.getInstantTileChange(ss.tiles.get(i), action);
             if (actionChange != null) {
-                result = addChange(result, actionChange);
+                result.addChange(actionChange);
             }
         }
         return result;
@@ -245,7 +240,7 @@ public class MainGame {
         for (int i = 0; i < ss.tiles.size(); i++) {
             GameDataChange endingTileChange = tileManager.getEndingTileChange(ss.tiles.get(i), ss);
             if (endingTileChange != null) {
-                result = addChange(result, endingTileChange);
+                result.addChange(endingTileChange);
             }
         }
         return result;

@@ -1,9 +1,11 @@
 package com.example.tmcalculator.game;
 
+import androidx.annotation.NonNull;
+
 /**
  * Reflects a change of game data, according to {@link com.example.tmcalculator.game.GameSnapshot}
  */
-public class GameDataChange {
+public class GameDataChange implements Cloneable {
     public int coin;
     public int worker;
     public int priest;
@@ -30,6 +32,33 @@ public class GameDataChange {
         temple = 0;
         stronghold = 0;
         sanctuary = 0;
+    }
+
+    public void addChange(GameDataChange change) {
+        coin += change.coin;
+        worker += change.worker;
+        priest += change.priest;
+        vp += change.vp;
+        power += change.power;
+        shipping += change.shipping;
+        shovel += change.shovel;
+        dwelling += change.dwelling;
+        tradingHouse += change.tradingHouse;
+        temple += change.temple;
+        stronghold += change.stronghold;
+        sanctuary += change.sanctuary;
+    }
+
+    @NonNull
+    @Override
+    public GameDataChange clone() {
+        try {
+            GameDataChange clone = (GameDataChange) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
     public static class Builder {

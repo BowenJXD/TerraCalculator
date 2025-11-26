@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tmcalculator.game.ActionManager;
+import com.example.tmcalculator.util.ActionManager;
 import com.example.tmcalculator.game.GameSnapshot;
 import com.example.tmcalculator.game.SimResult;
 import com.example.tmcalculator.util.LocalisationManager;

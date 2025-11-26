@@ -1,8 +1,12 @@
-package com.example.tmcalculator.game;
+package com.example.tmcalculator.util;
 
 import android.content.Context;
 
-import com.example.tmcalculator.util.ContextManager;
+import com.example.tmcalculator.game.EndingTile;
+import com.example.tmcalculator.game.GameDataChange;
+import com.example.tmcalculator.game.GameSnapshot;
+import com.example.tmcalculator.game.GameTile;
+import com.example.tmcalculator.game.InstantTile;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

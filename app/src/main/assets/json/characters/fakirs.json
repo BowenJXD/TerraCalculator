@@ -9,5 +9,8 @@
     "priest": -1,
     "vp": 4
   },
-  "UPGRADE_SHOVEL_L2_L3": null
+  "UPGRADE_SHOVEL_L2_L3": null,
+  "UPGRADE_SHIPPING_L0_L1": null,
+  "UPGRADE_SHIPPING_L1_L2": null,
+  "UPGRADE_SHIPPING_L2_L3": null
 }
