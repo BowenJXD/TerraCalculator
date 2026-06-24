@@ -184,18 +184,38 @@ public class MainGame {
     }*/
 
     public GameDataChange getChange(String action, GameSnapshot ss) {
+        int multiplier = 1;
+        if (action.contains("#")) {
+            multiplier = Integer.parseInt(action.substring(action.indexOf("#") + 1));
+            action = action.substring(0, action.indexOf("#"));
+        }
         GameDataChange change = actionChangeMap.get(action);
         if (change == null) {
             action = ActionManager.getInstance().mapToActionBySS(action, ss);
             change = actionChangeMap.get(action);
         }
-        if (character != null) {
-            GameDataChange charChange = character.addChange(action, change);
-            if (charChange != null) {
-                change = charChange;
+        GameDataChange result = null;
+        if (change != null) {
+            result = change.clone();
+            if (multiplier > 1) {
+                result.multiply(multiplier);
             }
         }
-        return change;
+        if (character != null) {
+            GameDataChange charChange = character.addChange(action, result);
+            if (charChange != null) {
+                result = charChange;
+                // Clone if charChange came from character's map to avoid shared mutations
+                if (charChange != change) {
+                    // Check if charChange is from character's map (not the same as original change)
+                    // To be safe, clone it
+                    result = charChange.clone();
+                } else {
+                    result = charChange;
+                }
+            }
+        }
+        return result;
     }
 
     public void applyChange(GameSnapshot ss, GameDataChange change) {

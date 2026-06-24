@@ -57,11 +57,27 @@ public class SnapshotViewModel extends AndroidViewModel {
         return true;
     }
 
-    public SimResult setAction(String action, int index) {
+    /**
+     * Re-runs simulateAll from the given action index. Called after drag-and-drop reorders
+     * the actions list in-place; the adapter already mutated sim.getActions() via onItemMove.
+     */
+    public SimResult recalculateFrom(int startFrom) {
+        Simulation sim = this.simulation.getValue();
+        if (sim == null) return SimResult.UNKNOWN_ERROR;
+        Simulation result = mainGame.simulateAll(sim, startFrom);
+        if (result == null) return SimResult.UNKNOWN_ERROR;
+        this.simulation.setValue(result);
+        return result.getSimResult();
+    }
+
+    public SimResult setAction(String action, int index, int multiplier) {
         Simulation sim = this.simulation.getValue();
         if (sim == null) return SimResult.UNKNOWN_ERROR;
         List<String> currentList = sim.getActions();
         if (currentList == null || currentList.size() < index) return SimResult.UNKNOWN_ERROR;
+        if (multiplier > 1) {
+            action += multiplier;
+        }
         if (index == currentList.size()) {
             currentList.add(action);
         } else {

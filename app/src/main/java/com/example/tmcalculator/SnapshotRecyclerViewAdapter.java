@@ -33,6 +33,7 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public interface OnSnapshotActionListener {
         void onAction(GameSnapshot ss, View anchor, Button btnAction, int position);
+        void onDragStarted(RecyclerView.ViewHolder holder);
     }
 
     public SnapshotRecyclerViewAdapter(OnSnapshotActionListener listener) {
@@ -112,6 +113,13 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     listener.onAction(ss, v, itemHolder.btnAction, itemPosition);
                 }
             });
+
+            itemHolder.tvIndex.setOnLongClickListener(v -> {
+                if (listener != null && itemPosition < snapshots.size() - 1) {
+                    listener.onDragStarted(itemHolder);
+                }
+                return true;
+            });
         }
     }
 
@@ -121,6 +129,28 @@ public class SnapshotRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             return 0;
         }
         return snapshots.size() + 1; // Add 1 for the header
+    }
+
+    /** Called by ItemTouchHelper during drag to shift items in real time. */
+    public void onItemMove(int fromAdapterPos, int toAdapterPos) {
+        int from = fromAdapterPos - 1; // subtract header offset
+        int to   = toAdapterPos   - 1;
+        String item = actions.remove(from);
+        actions.add(to, item);
+        notifyItemMoved(fromAdapterPos, toAdapterPos);
+    }
+
+    /** Called after a swipe-to-delete gesture completes. Removes from shared lists and animates the gap closing. */
+    public void onItemRemove(int adapterPos) {
+        int actionIndex = adapterPos - 1;
+        if (actions != null && actionIndex >= 0 && actionIndex < actions.size()) {
+            actions.remove(actionIndex);
+        }
+        // Shrink the snapshots list by one so simulateAll sees the correct target size
+        if (snapshots != null && !snapshots.isEmpty()) {
+            snapshots.remove(snapshots.size() - 1);
+        }
+        notifyItemRemoved(adapterPos);
     }
 
     // ViewHolder for the header

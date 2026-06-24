@@ -49,6 +49,21 @@ public class GameDataChange implements Cloneable {
         sanctuary += change.sanctuary;
     }
 
+    public void multiply(int multiplier) {
+        coin *= multiplier;
+        worker *= multiplier;
+        priest *= multiplier;
+        vp *= multiplier;
+        power *= multiplier;
+        shipping *= multiplier;
+        shovel *= multiplier;
+        dwelling *= multiplier;
+        tradingHouse *= multiplier;
+        temple *= multiplier;
+        stronghold *= multiplier;
+        sanctuary *= multiplier;
+    }
+
     @NonNull
     @Override
     public GameDataChange clone() {

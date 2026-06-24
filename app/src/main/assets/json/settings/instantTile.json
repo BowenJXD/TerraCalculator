@@ -12,6 +12,8 @@
       "vp": 3
     }
   },
+  "SCO_NONE": {
+  },
   "SCO_DVP": {
     "BUILD_DWELLING": {
       "vp": 2

@@ -48,9 +48,9 @@ public class TileManager {
     }
 
     private void initialiseTileLists() {
-        bonusTiles = List.of(GameTile.BON_DVP.name(), GameTile.BON_SHIPVP.name(), GameTile.BON_SVP.name(), GameTile.BON_THVP.name());
+        bonusTiles = List.of(GameTile.BON_NONE.name(), GameTile.BON_DVP.name(), GameTile.BON_SHIPVP.name(), GameTile.BON_SVP.name(), GameTile.BON_THVP.name());
         favorTiles = List.of(GameTile.FAV_EARTH_1.name(), GameTile.FAV_WATER_1.name(), GameTile.FAV_AIR_1.name());
-        scoringTiles = List.of(GameTile.SCO_DVP.name(), GameTile.SCO_SHOVP.name(), GameTile.SCO_SVP.name(), GameTile.SCO_THVP.name(), GameTile.SCO_TOWNVP.name());
+        scoringTiles = List.of(GameTile.SCO_NONE.name(), GameTile.SCO_DVP.name(), GameTile.SCO_SHOVP.name(), GameTile.SCO_SVP.name(), GameTile.SCO_THVP.name(), GameTile.SCO_TOWNVP.name());
     }
 
     private void initialiseInstantTiles() {
